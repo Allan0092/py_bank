@@ -23,6 +23,8 @@ def login_page():
 def sign_up():
     win2=Toplevel(win)
     win2.minsize(900,900)
+    win2.maxsize(900,900)
+
     win2.config(background='white')
 
     Label(win2,text="Sign up",font=100,bg='white',fg="black").place(x=400,y=80)
@@ -46,6 +48,5 @@ def check_credentials():
     pass
 
 login_page()
-
 
 win.mainloop()
