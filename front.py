@@ -13,15 +13,17 @@ def login_page():
     """
         First login page
     """
-    Label(win,text="Py Bank",font=10,bg="white",fg="black").place(x=300,y=50)
+    Label(win,text="Py Bank",font=10,bg="white",fg="black").grid(row=0,column=1,padx=150,pady=60)
 
-    Label(win,text="username",bg="white",fg="black").place(x=80,y=200)
-    _login=Entry(win,bg="white",fg='black').place(x=230,y=200)
-    Label(win,text="password",bg="white",fg="black").place(x=80,y=250)
-    _password=Entry(win,show='*',bg="white",fg='black').place(x=230,y=250)
-    Button(win,text='login').place(x=320,y=330)
-    Label(win,text='or',bg="white",fg="black").place(x=350,y=400)
-    Button(win,text="sign up",command=sign_up).place(x=305,y=450)
+    Label(win,text="username",bg="white",fg="black").grid(row=1,column=0)
+    _login=Entry(win,bg="white",fg='black').grid(row=1,column=1)
+
+    Label(win,text="password",bg="white",fg="black").grid(row=2,column=0)
+    _password=Entry(win,show='*',bg="white",fg='black').grid(row=2,column=1,pady=30)
+    
+    Button(win,text='login').grid(row=3,column=1)
+    Label(win,text='or',bg="white",fg="black").grid(row=4,column=1)
+    Button(win,text="sign up",command=sign_up).grid(row=10,column=1)
 
 def sign_up():
     """
@@ -30,6 +32,7 @@ def sign_up():
     win2=Toplevel(win)
     win2.minsize(900,900)
     win2.maxsize(900,900)
+    win2.title("Online Banking Signup")
 
     win2.config(background='white')
 
