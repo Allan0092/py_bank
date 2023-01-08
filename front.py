@@ -56,10 +56,12 @@ def sign_up():
     _lname=Entry(win2,bg="white",fg='black').grid(row=3,column=1)
 
     Label(win2,text='            Email Id',bg="white",fg="black").grid(row=4,column=0)
-    _email=Entry(win2,bg="white",fg='black').insert(0).grid(row=4,column=1,pady=30)
+    _email=Entry(win2,bg="white",fg='black').grid(row=4,column=1,pady=30)
 
     Label(win2,text='      Date of Birth',bg="white",fg="black").grid(row=5,column=0)
-    _dob=Entry(win2,bg="white",fg='black').grid(row=5,column=1)
+    _dob=Entry(win2,bg="white",fg='black')
+    _dob.grid(row=5,column=1)
+    _dob.insert(0,date.today())
 
     Label(win2,text='Gender',bg='white',fg='black').grid(row=6,column=0,pady=(30,0))
     for text,mode in gvals:
