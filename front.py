@@ -10,14 +10,14 @@ win.minsize(2560,1600)
 #win.maxsize(1500,800)
 win.config(background="#90cad1")
 
-IMAGE="py_bank/logo"
-IMAGE2="py_bank/logo2"
-IMAGE3="py_bank/logo3.png"
-IMAGE4="py_bank/logo4.png"
-IMAGE5="py_bank/logo5.png"
-IMAGE6="py_bank/logo6.png"
+IMAGE="py_bank/images/logo"
+IMAGE2="py_bank/images/logo2"
+IMAGE3="py_bank/images/logo3.png"
+IMAGE4="py_bank/images/logo4.png"
+IMAGE5="py_bank/images/logo5.png"
+IMAGE6="py_bank/images/logo6.png"
 
-TITLE="py_bank/title.png"
+TITLE="py_bank/images/title.png"
 
 my_img=ImageTk.PhotoImage(Image.open(IMAGE6))# login page
 my_img2=ImageTk.PhotoImage(Image.open(IMAGE4),size=(1,1))# signup page
@@ -38,9 +38,9 @@ def login_page():
     Label(win,text="Password",bg="#90cad1",fg="black",font=15).grid(row=2,column=1)
     _password=Entry(win,show='*',bg="white",fg='black').grid(row=2,column=2)
     
-    Button(win,text='Login').grid(row=3,column=2)
+    Button(win,text='Log In').grid(row=3,column=2)
     Label(win,text='OR',bg="#90cad1",fg="black").grid(row=4,column=2)
-    Button(win,text="Sign up",command=sign_up).grid(row=5,column=2)
+    Button(win,text="Sign Up",command=sign_up).grid(row=5,column=2)
 
 def sign_up():
     """
@@ -93,9 +93,6 @@ def sign_up():
 
     Button(win2,text='Submit',bg="white",fg="black").grid(row=15,column=1,pady=30)
 
-    
-def check_credentials():
-    pass
 
 login_page()
 
