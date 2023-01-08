@@ -1,6 +1,6 @@
 from tkinter import *
 from PIL import ImageTk,Image
-import sql_thngs
+import sql_thngs,regex
 
 
 win = Tk()
@@ -10,6 +10,9 @@ win.maxsize(700,700)
 win.config(background="white")
 
 def login_page():
+    """
+        First login page
+    """
     Label(win,text="Py Bank",font=10,bg="white",fg="black").place(x=300,y=50)
 
     Label(win,text="username",bg="white",fg="black").place(x=80,y=200)
@@ -21,6 +24,9 @@ def login_page():
     Button(win,text="sign up",command=sign_up).place(x=305,y=450)
 
 def sign_up():
+    """
+        sign up function
+    """
     win2=Toplevel(win)
     win2.minsize(900,900)
     win2.maxsize(900,900)
