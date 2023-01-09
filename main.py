@@ -6,20 +6,22 @@ import sql_thngs,regex
 
 win = Tk()
 win.title("Online Banking".center(100))
-win.minsize(2560,1600)
-#win.maxsize(1500,800)
+win.minsize(1920,1080)
+win.maxsize(1920,1080)
 win.config(background="#90cad1")
 
-IMAGE="py_bank/images/logo"
-IMAGE2="py_bank/images/logo2"
-IMAGE3="py_bank/images/logo3.png"
-IMAGE4="py_bank/images/logo4c.png"
-IMAGE5="py_bank/images/logo5.png"
-IMAGE6="py_bank/images/logo6.png"
+IMAGE="images\logo"
+IMAGE2="images\logo2"
+IMAGE3="images\logo3.png"
+IMAGE4="images\logo4c.png"
+IMAGE5="images\logo5.png"
+IMAGE6="images\logo6.png"
+IMAGE7="images\logo7.png"
 
-TITLE="py_bank/images/title.png"
 
-my_img=ImageTk.PhotoImage(Image.open(IMAGE6))# login page
+TITLE=r"images\title.png"
+
+my_img=ImageTk.PhotoImage(Image.open(IMAGE7))# login page
 my_img2=ImageTk.PhotoImage(Image.open(IMAGE4),size=(1,1))# signup page
 my_img3=ImageTk.PhotoImage(Image.open(TITLE),size=(1,1))# py_bank
 
@@ -27,23 +29,25 @@ def login_page():
     """
         First login page
     """
-    Label(image=my_img,bg="#90cad1").grid(row=0,column=0,rowspan=19,ipady=400)# Py Bank Logo
+    Label(image=my_img,bg="#90cad1").grid(row=0,column=0,pady=200,rowspan=19)# Py Bank Logo
 
-    Label(image=my_img3,bg="#90cad1").grid(row=0,column=1,pady=(300,0))# Py Bank Text Image
+    Label(image=my_img3,bg="#90cad1").grid(row=0,column=1,pady=(200,0))# Py Bank Text Image
     #Label(win,text="Py Bank",font=20,bg="#90cad1",fg="black").grid(row=0,column=2,pady=60)
 
-    frame=LabelFrame(win,bg="#90cad1",border=10,padx=100,pady=100)
+    frame=LabelFrame(win,bg="#90cad1",border=10,padx=100,pady=0)
     frame.grid(row=1,column=1)
 
-    Label(frame,text="Username",bg="#90cad1",fg="black",font=15).grid(row=1,column=1,pady=30,padx=30)
+    Label(frame,text="Username:",bg="#90cad1",fg="black",font=25).grid(row=1,column=1,pady=30,padx=30)
     _username=Entry(frame,bg="white",fg='black').grid(row=1,column=2,padx=(0,80))
 
-    Label(frame,text="Password",bg="#90cad1",fg="black",font=15).grid(row=2,column=1)
+    Label(frame,text="Password:",bg="#90cad1",fg="black",font=15).grid(row=2,column=1)
     _password=Entry(frame,show='*',bg="white",fg='black').grid(row=2,column=2,padx=(0,80))
     
-    Button(frame,text='Log In').grid(row=3,column=2,padx=(0,80),pady=30)
-    Label(frame,text='OR',bg="#90cad1",fg="black").grid(row=4,column=2,padx=(0,80))
-    Button(frame,text="Sign Up",command=sign_up).grid(row=5,column=2,pady=30,padx=(0,80))
+    Button(frame,text='Forgot Password',font=20,bg="#90cad1",fg="black",borderwidth=0,activebackground="red").grid(row=3,column=2,padx=(0,80))
+    Button(frame,text='Log In',font=80).grid(row=4,column=2,padx=(0,80),pady=30)
+    Label(frame,text="Don't have a account?",bg="#90cad1",fg="black",font=20).grid(row=5,column=1,padx=(0,0),sticky="E")
+    Button(frame,text="Sign Up",command=sign_up,font=60).grid(row=5,column=2,pady=30,padx=(0,80))
+
 
 def sign_up():
     """
