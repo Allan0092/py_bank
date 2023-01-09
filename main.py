@@ -13,7 +13,7 @@ win.config(background="#90cad1")
 IMAGE="py_bank/images/logo"
 IMAGE2="py_bank/images/logo2"
 IMAGE3="py_bank/images/logo3.png"
-IMAGE4="py_bank/images/logo4.png"
+IMAGE4="py_bank/images/logo4c.png"
 IMAGE5="py_bank/images/logo5.png"
 IMAGE6="py_bank/images/logo6.png"
 
@@ -51,7 +51,7 @@ def sign_up():
     win2.maxsize(900,1500)
     win2.title("Online Banking Signup")
 
-    win2.config(background='white')
+    win2.config(background='#90cad1')
 
     gvals=[
         ("Male",'Male'),
@@ -60,35 +60,37 @@ def sign_up():
     ]
     gvar=StringVar(win2,'male')
 
-    Label(win2,image=my_img2).grid(row=0,column=1,pady=(45,0))
+    Label(win2,image=my_img2,bg="#90cad1").grid(row=0,column=1,pady=(45,0))
 
-    Label(win2,text="Sign up",font=100,bg='white',fg="black").grid(row=1,column=1,pady=(20,60))
+    Label(win2,text="Sign up",font=100,bg='#90cad1',fg="black").grid(row=1,column=1,pady=(20,60))
 
-    Label(win2,text='            First name',bg="white",fg="black").grid(row=2,column=0)
+    Label(win2,text='            First name',bg="#90cad1",fg="black").grid(row=2,column=0)
     _fname=Entry(win2,bg="white",fg='black').grid(row=2,column=1)
 
-    Label(win2,text='        Middle name',bg="white",fg="black").grid(row=3,column=0)
+    Label(win2,text='        Middle name',bg="#90cad1",fg="black").grid(row=3,column=0)
     _mname=Entry(win2,bg="white",fg='black').grid(row=3,column=1,pady=30)
 
-    Label(win2,text='            Last name',bg="white",fg="black").grid(row=4,column=0)
+    Label(win2,text='            Last name',bg="#90cad1",fg="black").grid(row=4,column=0)
     _lname=Entry(win2,bg="white",fg='black').grid(row=4,column=1)
 
-    Label(win2,text='            Email Id',bg="white",fg="black").grid(row=5,column=0)
+    Label(win2,text='            Email Id',bg="#90cad1",fg="black").grid(row=5,column=0)
     _email=Entry(win2,bg="white",fg='black').grid(row=5,column=1,pady=30)
 
-    Label(win2,text='      Date of Birth',bg="white",fg="black").grid(row=6,column=0)
+    Label(win2,text='      Date of Birth',bg="#90cad1",fg="black").grid(row=6,column=0)
     _dob=Entry(win2,bg="white",fg='black')
     _dob.grid(row=6,column=1)
     _dob.insert(0,date.today())
 
-    Label(win2,text='Gender',bg='white',fg='black').grid(row=7,column=0,pady=(30,0))
+    Label(win2,text='Gender     ',bg='#90cad1',fg='black').grid(row=7,column=0,pady=(30,0),sticky='E')
+    _rowcnt=7
     for text,mode in gvals:
-        Radiobutton(win2,fg='black',bg='white',text=text,variable=gvar, value=mode).grid(column=1,pady=5)
+        Radiobutton(win2,fg='black',bg='#90cad1',text=text,variable=gvar, value=mode).grid(row=_rowcnt,column=1,sticky='WS',pady=5)
+        _rowcnt+=1
 
-    Label(win2,text='            Password',bg="white",fg="black").grid(row=12,column=0,pady=(40,0))
+    Label(win2,text='            Password',bg="#90cad1",fg="black").grid(row=12,column=0,pady=(40,0))
     _passwrd=Entry(win2,show='*',bg="white",fg='black').grid(row=12,column=1)
 
-    Label(win2,text='Confirm Password',bg="white",fg="black").grid(row=13,column=0,padx=(20,10))
+    Label(win2,text='Confirm Password',bg="#90cad1",fg="black").grid(row=13,column=0,padx=(20,10))
     _cpasswrd=Entry(win2,show='*',bg="white",fg='black').grid(row=13,column=1,pady=30)
 
     Button(win2,text='Submit',bg="white",fg="black").grid(row=15,column=1,pady=30)
