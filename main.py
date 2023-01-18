@@ -11,14 +11,14 @@ win.minsize(2560,1600)
 #win.maxsize(1500,800)
 win.config(background="#90cad1")
 
-IMAGE="py_bank/images/logo"
-IMAGE2="py_bank/images/logo2"
-IMAGE3="py_bank/images/logo3.png"
-IMAGE4="py_bank/images/logo4c.png"
-IMAGE5="py_bank/images/logo5.png"
-IMAGE6="py_bank/images/logo6.png"
+IMAGE="images/logo"
+IMAGE2="images/logo2"
+IMAGE3="images/logo3.png"
+IMAGE4="images/logo4c.png"
+IMAGE5="images/logo5.png"
+IMAGE6="images/logo6.png"
 
-TITLE="py_bank/images/title.png"
+TITLE="images/title.png"
 
 my_img=ImageTk.PhotoImage(Image.open(IMAGE6))# login page
 my_img2=ImageTk.PhotoImage(Image.open(IMAGE4),size=(1,1))# signup page
