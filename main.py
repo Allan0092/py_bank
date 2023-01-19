@@ -1,7 +1,6 @@
 from tkinter import *
-from tkcalendar import Calendar,DateEntry
+from tkcalendar import DateEntry
 from PIL import ImageTk,Image
-from datetime import date
 import sql_thngs,check_cred
 
 
