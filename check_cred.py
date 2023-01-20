@@ -51,7 +51,7 @@ def check_information(args):
         return True
     return False
 
-if name=="main":
+if __name__=="__main__":
     id = Faker()
 
     for i in range(200):
