@@ -11,31 +11,31 @@ def valid_email(__email) :
         __email = validate["email"] 
         return True, -1, None
     except EmailNotValidError:
-        return False, 3, ' Not Found'
+        return False, 3, ' not valid'
 
 def valid_dob(__dob):
     """
         checks if given valid date of birth
     """
-    if not __dob[-4:].isdigit() or __dob[-5]!='/' or not __dob[0].isdigit()or not __dob[-6].isdigit():#checks year, first digit and "/"
+    if not __dob[-2:].isdigit() or __dob[-3]!='-' or not __dob[0].isdigit()or not __dob[-4].isdigit():#checks year, first digit and "-"
         return False, 4, ' not Valid'
 
-    the_rest=__dob[:-5]
+    the_rest=__dob[:-3]
     length=len(the_rest)
-    if length==3:# checks "1/2"
-        if the_rest[0].isdigit()==False or the_rest[1]!='/' or not the_rest[2].isdigit():
+    if length==3:# checks "1-2"
+        if the_rest[0].isdigit()==False or the_rest[1]!='-' or not the_rest[2].isdigit():
             return False, 4, ' not Valid'
-    elif length==4:# checks "1/23" or "12/3"
-        if the_rest[1]=='/':
+    elif length==4:# checks "1-23" or "12-3"
+        if the_rest[1]=='-':
             if not the_rest[2].isdigit() or not the_rest[3].isdigit():
                 return False, 4, ' not Valid'
-        elif the_rest[2]=='/':
+        elif the_rest[2]=='-':
             if not the_rest[1].isdigit() or not the_rest[3].isdigit():
                 return False, 4, ' not Valid'
         else:
             return False, 4, ' not Valid'
-    elif length==5:# checks "12/34"
-        if the_rest[2]!='/':
+    elif length==5:# checks "12-34"
+        if the_rest[2]!='-':
             return False, 4, ' not Valid'
         if not the_rest[:2].isdigit() or not the_rest[3:5].isdigit():
             return False, 4, ' not Valid'
@@ -81,26 +81,26 @@ def emptyfield_check(information):
         if info=="" or info==None:
             if n==1:# middle name can be empty
                 continue
-            return True, n, ' cannot be empty'
-    return False
+            return False, n, ' cannot be empty'
+    return True, -1, None
 
 def within_limit_check(information):
     '''
         checks if characters are within limit
     '''
     if len(information[0])<2 or len(information[0])>20:# first name
-        return True, 0, ' must be between 2-20 letters'
+        return False, 0, ' must be between 2-20 letters'
     if len(information[1])>20:# middle name
-        return True, 1, ' must be smaller than 20 letters'
+        return False, 1, ' must be smaller than 20 letters'
     if len(information[2])<2 or len(information[2])>20:# last name
-        return True, 2, ' must be between 2-20 letters'
+        return False, 2, ' must be between 2-20 letters'
     if len(information[3])<7 or len(information[0])>40:# email
-        return True, 3, 'must be between 7-20 characters'
+        return False, 3, 'must be between 7-20 characters'
     if len(information[4])<5 or len(information[4])>20:# username
-        return True, 5, "must be between 5-20 characters" 
+        return False, 5, "must be between 5-20 characters" 
     if len(information[5])<8 or len(information[0])>20:# password
-        return True, 6, "must be between 8-20 characters"
-    return False, -1, None
+        return False, 6, "must be between 8-20 characters"
+    return True, -1, None
 
 def syntax_check(information):
     """
@@ -128,8 +128,9 @@ def syntax_check(information):
     if not password_check[0]:
         return password_check
 
+    return True, -1, None
 
-def main(*args):
+def main(info):
     """
         main function.
         Arguments:
@@ -137,15 +138,22 @@ def main(*args):
             middle name : string
             last name : string
             email id : string
-            date of birth : string("d/m/yyyy")
+            date of birth : string("d-m-yy")
             username : string
             password : string
             confirm password : string
+            gender : string('male' | 'female' | 'other' | None)
     """
-    information=list(args)
-    if emptyfield_check(information)[0] and within_limit_check(information)[0]:
-        return True
-    return False
+    
+    check1=emptyfield_check(info)
+    if check1[0]:
+        check2=within_limit_check(info)
+        if check2[0]:
+            return syntax_check(info)
+        else:
+            return check2
+    else:
+        return check1
 
 if __name__=="__main__":
     id = Faker()
