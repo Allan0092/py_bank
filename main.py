@@ -80,41 +80,41 @@ def sign_up():
     new_fname=Entry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
     new_fname.grid(row=2,column=1,padx=(0,100))
 
-    Label(frame2,text='        Middle name',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=3,column=0)
+    Label(frame2,text='        Middle name',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=4,column=0)
     new_mname=Entry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
-    new_mname.grid(row=3,column=1,pady=30,padx=(0,100))
+    new_mname.grid(row=4,column=1,pady=30,padx=(0,100))
 
-    Label(frame2,text='            Last name',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=4,column=0)
+    Label(frame2,text='            Last name',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=6,column=0)
     new_lname=Entry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
-    new_lname.grid(row=4,column=1,padx=(0,100))
+    new_lname.grid(row=6,column=1,padx=(0,100))
 
-    Label(frame2,text='            Email Id',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=5,column=0)
+    Label(frame2,text='            Email Id',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=8,column=0)
     new_email=Entry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
-    new_email.grid(row=5,column=1,pady=30,padx=(0,100))
+    new_email.grid(row=8,column=1,pady=30,padx=(0,100))
 
-    Label(frame2,text='      Date of Birth',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=6,column=0)
+    Label(frame2,text='      Date of Birth',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=10,column=0)
     new_dob=DateEntry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
-    new_dob.grid(row=6,column=1,ipadx=40,sticky="W")
+    new_dob.grid(row=10,column=1,ipadx=40,sticky="W")
 
-    Label(frame2,text='Gender     ',bg='#90cad1',fg=FOREGROUND1).grid(row=7,column=0,pady=(30,0),sticky='E')
-    _rowcnt=7
+    Label(frame2,text='Gender     ',bg='#90cad1',fg=FOREGROUND1).grid(row=12,column=0,pady=(30,0),sticky='E')
+    _rowcnt=12
     for text,mode in gvals:
         Radiobutton(frame2,fg=FOREGROUND1,bg='#90cad1',text=text,variable=gvar, value=mode).grid(row=_rowcnt,column=1,sticky='WS',pady=5)
         _rowcnt+=1
 
-    Label(frame2,text="             Username",bg=BACKGROUND1,fg=FOREGROUND1).grid(row=10,column=0,pady=(40,0))
+    Label(frame2,text="             Username",bg=BACKGROUND1,fg=FOREGROUND1).grid(row=16,column=0,pady=(40,0))
     new_uname=Entry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
-    new_uname.grid(row=10,column=1,sticky='W',pady=(40,0))
+    new_uname.grid(row=16,column=1,sticky='W',pady=(40,0))
 
-    Label(frame2,text='            Password',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=12,column=0,pady=(40,0))
+    Label(frame2,text='            Password',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=18,column=0,pady=(40,0))
     new_passwrd=Entry(frame2,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
-    new_passwrd.grid(row=12,column=1,padx=(0,100),pady=(40,0))
+    new_passwrd.grid(row=18,column=1,padx=(0,100),pady=(40,0))
 
-    Label(frame2,text='Confirm Password',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=13,column=0,padx=(20,10))
+    Label(frame2,text='Confirm Password',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=20,column=0,padx=(20,10))
     new_cpasswrd=Entry(frame2,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
-    new_cpasswrd.grid(row=13,column=1,pady=30,padx=(0,100))
+    new_cpasswrd.grid(row=20,column=1,pady=30,padx=(0,100))
     
-    Button(frame2,text='Submit',bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data).grid(row=15,column=1,pady=30,padx=(0,100))
+    Button(frame2,text='Submit',bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data).grid(row=22,column=1,pady=30,padx=(0,100))
 
 def sign_up_data():
     print(f'First name {new_fname.get()}')
@@ -126,6 +126,8 @@ def sign_up_data():
     print(f'Password {new_passwrd.get()}')
     print(f'Confirm Password {new_cpasswrd.get()}')
 
+def signup_errors():
+    pass
 
 
 login_page()
