@@ -42,7 +42,9 @@ def valid_dob(__dob):
     return True, -1, None
 
 def valid_username(__username):
-    
+    """
+        checks if given valid username
+    """
     for letter in __username:
         if not letter.isalnum():
             if letter not in ['_','-','@','.']:
@@ -50,6 +52,9 @@ def valid_username(__username):
     return True, -1, None
 
 def valid_password(__passwrd):
+    """
+        checks if given valid password
+    """
     variety=[False,False,False,False]# [Uppercase, Lowercase, number, symbol]
     for char in __passwrd:
         if char.isalpha():
@@ -125,6 +130,18 @@ def syntax_check(information):
 
 
 def main(*args):
+    """
+        main function.
+        Arguments:
+            first name : string
+            middle name : string
+            last name : string
+            email id : string
+            date of birth : string("d/m/yyyy")
+            username : string
+            password : string
+            confirm password : string
+    """
     information=list(args)
     if emptyfield_check(information)[0] and within_limit_check(information)[0]:
         return True
