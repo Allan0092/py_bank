@@ -2,7 +2,7 @@ from email_validator import validate_email, EmailNotValidError
 from faker import Faker
 from datetime import datetime
 
-def valid_email(__email) :
+def valid_email(__email):
     """
         checks for valid email
     """
@@ -95,11 +95,11 @@ def within_limit_check(information):
     if len(information[2])<2 or len(information[2])>20:# last name
         return False, 2, ' must be between 2-20 letters'
     if len(information[3])<7 or len(information[0])>40:# email
-        return False, 3, 'must be between 7-20 characters'
-    if len(information[4])<5 or len(information[4])>20:# username
-        return False, 5, "must be between 5-20 characters" 
-    if len(information[5])<8 or len(information[0])>20:# password
-        return False, 6, "must be between 8-20 characters"
+        return False, 3, ' must be between 7-20 characters'
+    if len(information[5])<5 or len(information[5])>20:# username
+        return False, 5, " must be between 5-20 characters" 
+    if len(information[6])<=8 or len(information[6])>20:# password
+        return False, 6, " must be between 8-20 characters"
     return True, -1, None
 
 def syntax_check(information):
