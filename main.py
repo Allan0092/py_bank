@@ -117,14 +117,33 @@ def sign_up():
     Button(frame2,text='Submit',bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data).grid(row=22,column=1,pady=30,padx=(0,100))
 
 def sign_up_data():
+    global all_data
+
     print(f'First name {new_fname.get()}')
     print(f'Middle name {new_mname.get()}')
     print(f'Last name {new_lname.get()}')
     print(f'Email id {new_email.get()}')
     print(f'Date of Birth {new_dob.get_date()}')
     print(f'Gender {gvar.get()}')
+    print(f'Username {new_uname.get()}')
     print(f'Password {new_passwrd.get()}')
     print(f'Confirm Password {new_cpasswrd.get()}')
+
+    data_fname=new_fname.get()
+    data_fname=data_fname.strip()
+    data_mname=new_mname.get()
+    data_lname=new_lname.get()
+    data_email=new_email.get()
+    data_dob=new_dob.get_date()
+    data_dob=str(data_dob)
+    data_uname=new_uname.get()
+    data_passwrd=new_passwrd.get()
+    data_confpasswrd=new_cpasswrd.get()
+    data_gender=gvar.get()
+
+    all_data=[data_fname, data_mname, data_lname, data_email, data_dob, data_uname, data_passwrd, data_confpasswrd,data_gender]
+
+    print(f'check : {check_cred.main(all_data)}')
 
 def signup_errors():
     pass
