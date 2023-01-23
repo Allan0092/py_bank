@@ -34,9 +34,11 @@ def login_page():
     def clicked_signup():
         frame.grid_forget()
         sign_up()
-    Label(image=my_img,bg=BACKGROUND1).grid(row=0,column=0,rowspan=19,ipady=400)# Py Bank Logo
+    py_bank_logo=Label(image=my_img,bg=BACKGROUND1)
+    py_bank_logo.grid(row=0,column=0,rowspan=19,ipady=400)# Py Bank Logo
 
-    Label(image=my_img3,bg=BACKGROUND1).grid(row=0,column=1,pady=(300,0))# Py Bank Text Image
+    py_bank_title=Label(image=my_img3,bg=BACKGROUND1)
+    py_bank_title.grid(row=0,column=1,pady=(300,0))# Py Bank Text Image
     #Label(win,text="Py Bank",font=20,bg=BACKGROUND1,fg=FOREGROUND1).grid(row=0,column=2,pady=60)
 
     frame=LabelFrame(win,bg=BACKGROUND1,border=10,padx=100,pady=100)
