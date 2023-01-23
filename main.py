@@ -30,6 +30,7 @@ def login_page():
     """
         First login page
     """
+
     def clicked_signup():
         frame.grid_forget()
         sign_up()
@@ -60,7 +61,7 @@ def sign_up():
         sign up page
     """
 
-    global new_fname,new_lname,new_mname,new_email,new_dob,new_passwrd,new_cpasswrd,gvar,new_uname
+    global frame2,new_fname,new_lname,new_mname,new_email,new_dob,new_passwrd,new_cpasswrd,gvar,new_uname
 
     frame2=LabelFrame(win,bg=BACKGROUND1,border=10,padx=10,pady=10)
 
@@ -90,11 +91,11 @@ def sign_up():
 
     Label(frame2,text='            Email Id',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=8,column=0)
     new_email=Entry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
-    new_email.grid(row=8,column=1,pady=30,padx=(0,100))
+    new_email.grid(row=8,column=1,pady=(30,0),padx=(0,100))
 
     Label(frame2,text='      Date of Birth',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=10,column=0)
     new_dob=DateEntry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
-    new_dob.grid(row=10,column=1,ipadx=40,sticky="W")
+    new_dob.grid(row=10,column=1,ipadx=40,sticky="W",pady=(30,0))
 
     Label(frame2,text='Gender     ',bg='#90cad1',fg=FOREGROUND1).grid(row=12,column=0,pady=(30,0),sticky='E')
     _rowcnt=12
@@ -112,9 +113,9 @@ def sign_up():
 
     Label(frame2,text='Confirm Password',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=20,column=0,padx=(20,10))
     new_cpasswrd=Entry(frame2,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
-    new_cpasswrd.grid(row=20,column=1,pady=30,padx=(0,100))
+    new_cpasswrd.grid(row=20,column=1,pady=(30,0),padx=(0,100))
     
-    Button(frame2,text='Submit',bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data).grid(row=22,column=1,pady=30,padx=(0,100))
+    Button(frame2,text='Submit',bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data).grid(row=22,column=1,pady=60,padx=(0,100))
 
 def sign_up_data():
     global all_data
@@ -128,6 +129,7 @@ def sign_up_data():
     print(f'Username {new_uname.get()}')
     print(f'Password {new_passwrd.get()}')
     print(f'Confirm Password {new_cpasswrd.get()}')
+    print()
 
     data_fname=new_fname.get()
     data_fname=data_fname.strip()
@@ -143,10 +145,41 @@ def sign_up_data():
 
     all_data=[data_fname, data_mname, data_lname, data_email, data_dob, data_uname, data_passwrd, data_confpasswrd,data_gender]
 
-    print(f'check : {check_cred.main(all_data)}')
+    _check_data=check_cred.main(all_data)
+    print(f'check : {_check_data}')
+    if not _check_data[0]:
+        signup_error_show(_check_data)
 
-def signup_errors():
-    pass
+    
+def signup_error_show(_where):
+    global signup_error1
+
+    #[symbol number, field name, row]
+    error_codes=[
+        [0, 'first name', 3],
+        [1 , 'middle name', 5],
+        [2 , 'last name', 7],
+        [3 , 'email', 9],
+        [4 , 'date of birth', 11],
+        [5 , 'username', 17],
+        [6 , 'password', 19],
+        [7 , 'confirm password', 21],
+        [8 , 'gender', 15]
+    ]
+
+    try:
+        signup_error1.grid_forget()
+    except NameError:
+        pass
+
+    _row=error_codes[_where[1]][2]
+    _text=error_codes[_where[1]][1]
+    print(f'\nError : {_text}\nat {_row}')
+
+    signup_error1=Label(frame2,text=_text + _where[2],fg='red')
+    signup_error1.grid(row=_row,column=1,columnspan=4,sticky='WN')
+
+    
 
 
 login_page()
