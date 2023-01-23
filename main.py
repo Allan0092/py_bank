@@ -6,8 +6,9 @@ import sql_thngs,check_cred
 
 win = Tk()
 win.title("Online Banking".center(100))
-win.minsize(2560,1600)
+#win.minsize(2560,1600)
 #win.maxsize(1500,800)
+win.state("zoomed")
 BACKGROUND1="#90cad1"
 BACKGROUND2="white"
 FOREGROUND1='black'
