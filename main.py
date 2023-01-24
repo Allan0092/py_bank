@@ -6,9 +6,9 @@ import sql_thngs,check_cred
 
 win = Tk()
 win.title("Online Banking".center(100))
-#win.minsize(2560,1600)
+win.minsize(2560,1600)
 #win.maxsize(1500,800)
-win.state("zoomed")
+#win.state("zoomed")
 BACKGROUND1="#90cad1"
 BACKGROUND2="white"
 FOREGROUND1='black'
@@ -20,6 +20,8 @@ IMAGE3="images/logo3.png"
 IMAGE4="images/logo4c.png"
 IMAGE5="images/logo5.png"
 IMAGE6="images/logo6.png"
+IMAGE7="images/logo7.png"
+
 
 TITLE="images/title.png"
 
