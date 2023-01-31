@@ -4,31 +4,6 @@ from PIL import ImageTk,Image
 import sql_thngs,check_cred
 
 
-win = Tk()
-win.title("Online Banking".center(100))
-win.minsize(2560,1600)
-#win.maxsize(1500,800)
-#win.state("zoomed")
-BACKGROUND1="#90cad1"
-BACKGROUND2="white"
-FOREGROUND1='black'
-win.config(background=BACKGROUND1)
-
-IMAGE="images/logo"
-IMAGE2="images/logo2"
-IMAGE3="images/logo3.png"
-IMAGE4="images/logo4c.png"
-IMAGE5="images/logo5.png"
-IMAGE6="images/logo6.png"
-IMAGE7="images/logo7.png"
-
-
-TITLE="images/title.png"
-
-my_img=ImageTk.PhotoImage(Image.open(IMAGE6))# login page
-my_img2=ImageTk.PhotoImage(Image.open(IMAGE4),size=(1,1))# signup page
-my_img3=ImageTk.PhotoImage(Image.open(TITLE),size=(1,1))# py_bank
-
 def login_page():
     """
         First login page
@@ -185,6 +160,36 @@ def signup_error_show(_where):
     signup_error1.grid(row=_row,column=1,columnspan=4,sticky='WN')
 
 
-login_page()
+def main():
+    global win,BACKGROUND1,BACKGROUND2,FOREGROUND1,IMAGE,IMAGE2,IMAGE3,IMAGE4,IMAGE5,IMAGE6,IMAGE7,my_img,my_img2,my_img3
 
-win.mainloop()
+    win = Tk()
+    win.title("Online Banking".center(100))
+    win.minsize(2560,1600)
+    #win.maxsize(1500,800)
+    #win.state("zoomed")
+    BACKGROUND1="#90cad1"
+    BACKGROUND2="white"
+    FOREGROUND1='black'
+    win.config(background=BACKGROUND1)
+
+    IMAGE="images/logo"
+    IMAGE2="images/logo2"
+    IMAGE3="images/logo3.png"
+    IMAGE4="images/logo4c.png"
+    IMAGE5="images/logo5.png"
+    IMAGE6="images/logo6.png"
+    IMAGE7="images/logo7.png"
+
+
+    TITLE="images/title.png"
+
+    my_img=ImageTk.PhotoImage(Image.open(IMAGE6))# login page
+    my_img2=ImageTk.PhotoImage(Image.open(IMAGE4),size=(1,1))# signup page
+    my_img3=ImageTk.PhotoImage(Image.open(TITLE),size=(1,1))# py_bank
+
+    login_page()
+
+if __name__=="__main__":
+    main()
+    win.mainloop()
