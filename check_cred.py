@@ -73,6 +73,15 @@ def valid_password(__passwrd):
             return False, 6, ' not valid'
     return True, -1, None
 
+def both_passwords_match(information):
+    """
+        checks if both passwords match
+    """
+    if information[6]==information[7]:
+        return True, -1, None
+    else:
+        return False, 7, " does not match"
+
 def emptyfield_check(information):
     '''
         Checks for empty fields
@@ -127,6 +136,10 @@ def syntax_check(information):
     password_check=valid_password(information[6])# password checker
     if not password_check[0]:
         return password_check
+
+    conf_password_check=both_passwords_match(information)
+    if not conf_password_check[0]:
+        return conf_password_check
 
     return True, -1, None
 

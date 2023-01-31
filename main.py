@@ -181,10 +181,8 @@ def signup_error_show(_where):
     _text=error_codes[_where[1]][1]
     print(f'\nError : {_text}\nat {_row}')
 
-    signup_error1=Label(frame2,text=_text + _where[2],fg='red')
+    signup_error1=Label(frame2,text=_text + _where[2],fg='red',bg=BACKGROUND1)
     signup_error1.grid(row=_row,column=1,columnspan=4,sticky='WN')
-
-    
 
 
 login_page()
