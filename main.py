@@ -3,17 +3,19 @@ from tkinter import messagebox
 from tkcalendar import DateEntry
 from PIL import ImageTk,Image
 
-import admin_crude,check_cred,DataActions
+import check_cred,DataActions
 
 
 def login_page():
     """
         First login page
     """
+    global frame,login_username,login_password,py_bank_logo,py_bank_title
 
     def clicked_signup():
         frame.grid_forget()
         sign_up()
+
     py_bank_logo=Label(image=my_img,bg=BACKGROUND1)
     py_bank_logo.grid(row=0,column=0,rowspan=19,ipady=400)# Py Bank Logo
 
@@ -25,17 +27,40 @@ def login_page():
     frame.grid(row=1,column=1)
 
     Label(frame,text="Username",bg=BACKGROUND1,fg=FOREGROUND1,font=15).grid(row=1,column=1,pady=30,padx=30)
-    _username=Entry(frame,bg=BACKGROUND2,fg=FOREGROUND1)
-    _username.grid(row=1,column=2,padx=(0,80))
+    login_username=Entry(frame,bg=BACKGROUND2,fg=FOREGROUND1)
+    login_username.grid(row=1,column=2,padx=(0,80))
     
 
     Label(frame,text="Password",bg=BACKGROUND1,fg=FOREGROUND1,font=15).grid(row=2,column=1)
-    _password=Entry(frame,show='*',bg=BACKGROUND2,fg=FOREGROUND1).grid(row=2,column=2,padx=(0,80))
+    login_password=Entry(frame,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
+    login_password.grid(row=2,column=2,padx=(0,80))
     
-    Button(frame,text='Log In').grid(row=3,column=2,padx=(0,80),pady=30)
+    Button(frame,text='Log In',command=login_check).grid(row=3,column=2,padx=(0,80),pady=30)
     Label(frame,text='OR',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=4,column=2,padx=(0,80))
     Button(frame,text="Sign Up",command=clicked_signup).grid(row=5,column=2,pady=30,padx=(0,80))
 
+def login_check():
+    """
+        Checks username and password
+    """
+    all_clients=DataActions.retrieve_all()
+
+    for client in all_clients:
+        if login_username.get()==client[6]:
+            if login_password.get()==client[7]:
+                frame.grid_forget()
+                py_bank_logo.grid_forget()
+                py_bank_title.grid_forget()
+                homepage()    
+            else:
+                print("Wrong password")
+    print("Username not found")
+
+def homepage():
+    """
+        The homepage, after login is successfull
+    """
+    Label(text='Homepage').grid(row=0,column=0)
 
 def sign_up():
     """
