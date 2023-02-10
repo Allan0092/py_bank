@@ -87,7 +87,7 @@ def emptyfield_check(information):
         Checks for empty fields
     '''
     for n,info in enumerate(information):
-        if info=="" or info==None:
+        if info=="" or info==None or info=='None':
             if n==1:# middle name can be empty
                 continue
             return False, n, ' cannot be empty'
