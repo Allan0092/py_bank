@@ -3,7 +3,32 @@ import sqlite3
 
 DATABASE="bank_data.db"
 
+def configure() -> None:
+    '''
+        execute if table not created.
+    '''
+    conn=sqlite3.connect(DATABASE)
+    c=conn.cursor()
+
+    c.execute("""
+    create table Account(
+        first_name text,
+        middle_name text,
+        last_name text,
+        email text,
+        dob text,
+        gender text,
+        username text,
+        password text
+        
+    )
+    """)
+    print("database created successfully")
+    conn.commit()
+    conn.close()
+
 def signup_submit(info:list) -> None:
+
     """
         submits data from sign up page into database.
         Arguments:
@@ -34,3 +59,22 @@ def signup_submit(info:list) -> None:
 
     conn.commit()
     conn.close()
+
+def retrieve_all() -> list:
+    conn= sqlite3.connect(DATABASE)
+
+    c= conn.cursor()
+
+    c.execute("SELECT *, oid FROM Account")
+
+    records= c.fetchall()#[(),()]
+    print(records)
+
+    return records
+
+    conn.close()
+
+try:
+    configure()
+except sqlite3.OperationalError:
+    pass
