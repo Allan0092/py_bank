@@ -31,6 +31,11 @@ def configure():
 def main():
     global win,fname,mname,lname,email,dob,gender,uname,passwrd,update_box,delete_box
 
+    try:
+        configure()
+    except sqlite3.OperationalError:
+        pass
+
     win=Tk()
     win.title("Bank")
     win.minsize(700,1000)
