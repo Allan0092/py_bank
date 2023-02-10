@@ -1,7 +1,9 @@
 from tkinter import *
+from tkinter import messagebox
 from tkcalendar import DateEntry
 from PIL import ImageTk,Image
-import sql_thngs,check_cred
+
+import admin_crude,check_cred,DataActions
 
 
 def login_page():
@@ -34,7 +36,6 @@ def login_page():
     Label(frame,text='OR',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=4,column=2,padx=(0,80))
     Button(frame,text="Sign Up",command=clicked_signup).grid(row=5,column=2,pady=30,padx=(0,80))
 
-    
 
 def sign_up():
     """
@@ -127,10 +128,15 @@ def sign_up_data():
 
     _check_data=check_cred.main(all_data)
     print(f'check : {_check_data}')
-    if not _check_data[0]:
+
+    if not _check_data[0]:# Error found
         signup_error_show(_check_data)
 
-    
+    else:# Everything OK
+        DataActions.signup_submit(all_data)
+        messagebox.showinfo("Success","Submitted Sucessfully")
+        
+
 def signup_error_show(_where):
     global signup_error1
 
@@ -190,6 +196,7 @@ def main():
 
     login_page()
 
+    win.mainloop()
+
 if __name__=="__main__":
     main()
-    win.mainloop()
