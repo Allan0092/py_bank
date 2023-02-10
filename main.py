@@ -14,6 +14,7 @@ def login_page():
 
     def clicked_signup():
         frame.grid_forget()
+        py_bank_title.grid_forget()
         sign_up()
 
     py_bank_logo=Label(image=my_img,bg=BACKGROUND1)
@@ -37,6 +38,8 @@ def login_page():
     
     Button(frame,text='Log In',command=login_check).grid(row=3,column=2,padx=(0,80),pady=30)
     Label(frame,text='OR',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=4,column=2,padx=(0,80))
+
+    Label(frame,text="Don't have an account?",bg=BACKGROUND1).grid(row=5,column=1,sticky='E')
     Button(frame,text="Sign Up",command=clicked_signup).grid(row=5,column=2,pady=30,padx=(0,80))
 
 def login_check():
@@ -69,7 +72,17 @@ def sign_up():
 
     global frame2,new_fname,new_lname,new_mname,new_email,new_dob,new_passwrd,new_cpasswrd,gvar,new_uname
 
+  
+
+
+    py_bank_title.grid(row=0,column=1,pady=(200,0))
     frame2=LabelFrame(win,bg=BACKGROUND1,border=10,padx=10,pady=10)
+    frame2.grid(row=1,column=1)
+
+    def clicked_login():
+        frame2.grid_forget()
+        py_bank_title.grid_forget()
+        login_page()
 
     gvals=[
         ("Male",'male'),
@@ -77,7 +90,7 @@ def sign_up():
         ("Other",'other')
     ]
     gvar=StringVar(frame2,'None')
-    frame2.grid(row=1,column=1)
+    
 
     #Label(frame2,image=my_img2,bg=BACKGROUND1).grid(row=0,column=1,pady=(45,0))
 
@@ -117,11 +130,14 @@ def sign_up():
     new_passwrd=Entry(frame2,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
     new_passwrd.grid(row=18,column=1,padx=(0,100),pady=(40,0))
 
-    Label(frame2,text='Confirm Password',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=20,column=0,padx=(20,10))
+    Label(frame2,text='Confirm Password',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=20,column=0,padx=(20,10),sticky='S')
     new_cpasswrd=Entry(frame2,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
     new_cpasswrd.grid(row=20,column=1,pady=(30,0),padx=(0,100))
     
-    Button(frame2,text='Submit',bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data).grid(row=22,column=1,pady=60,padx=(0,100))
+    Button(frame2,text='Submit',bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data).grid(row=22,column=1,pady=(60,0),padx=(0,100))
+
+    Label(frame2,text='OR',bg=BACKGROUND1).grid(row=23, column=1,padx=(0,100),pady=25)
+    Button(frame2,text='Log in',bg=BACKGROUND2,fg=FOREGROUND1,command=clicked_login).grid(row=24,column=1,pady=(0,20),padx=(0,100))
 
 def sign_up_data():
     global all_data
