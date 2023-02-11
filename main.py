@@ -3,15 +3,19 @@ from tkcalendar import DateEntry
 from PIL import ImageTk,Image
 import admin_crude,check_cred
 
+import check_cred,DataActions
+
 
 def login_page():
     """
         First login page
     """
+    global frame,login_username,login_password,py_bank_logo,py_bank_title
 
     def clicked_signup():
         frame.grid_forget()
         sign_up()
+
     py_bank_logo=Label(image=my_img,bg=BACKGROUND1)
     py_bank_logo.grid(row=0,column=0,rowspan=19,ipady=200)# Py Bank Logo
 
@@ -20,22 +24,44 @@ def login_page():
     #Label(win,text="Py Bank",font=20,bg=BACKGROUND1,fg=FOREGROUND1).grid(row=0,column=2,pady=60)
 
     frame=LabelFrame(win,bg=BACKGROUND1,border=10,padx=50,pady=50)
-    frame.grid(row=2,column=1)
+    frame.grid(row=1,column=1)
 
     Label(frame,text="Username:",bg=BACKGROUND1,fg=FOREGROUND1,font=15).grid(row=1,column=1,pady=30,padx=30)
-    _username=Entry(frame,bg=BACKGROUND2,fg=FOREGROUND1)
-    _username.grid(row=1,column=2,padx=(0,80))
+    login_username=Entry(frame,bg=BACKGROUND2,fg=FOREGROUND1)
+    login_username.grid(row=1,column=2,padx=(0,80))
     
 
     Label(frame,text="Password:",bg=BACKGROUND1,fg=FOREGROUND1,font=15).grid(row=2,column=1)
-    _password=Entry(frame,show='*',bg=BACKGROUND2,fg=FOREGROUND1).grid(row=2,column=2,padx=(0,80))
+    login_password=Entry(frame,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
+    login_password.grid(row=2,column=2,padx=(0,80))
     
     Button(frame,text='Log In',font=80,activebackground="green").grid(row=3,column=2,padx=(0,80),pady=30)
     Label(frame,text='OR',bg=BACKGROUND1,fg=FOREGROUND1,font=50).grid(row=4,column=2,padx=(0,80))
     Label(frame,text="Don't have a account?",bg="#90cad1",fg="black",font=20).grid(row=5,column=1,padx=(0,0),sticky="E")
     Button(frame,text="Sign Up",command=sign_up,font=60,activebackground="red").grid(row=5,column=2,pady=30,padx=(0,80))
 
-    
+def login_check():
+    """
+        Checks username and password
+    """
+    all_clients=DataActions.retrieve_all()
+
+    for client in all_clients:
+        if login_username.get()==client[6]:
+            if login_password.get()==client[7]:
+                frame.grid_forget()
+                py_bank_logo.grid_forget()
+                py_bank_title.grid_forget()
+                homepage()    
+            else:
+                print("Wrong password")
+    print("Username not found")
+
+def homepage():
+    """
+        The homepage, after login is successfull
+    """
+    Label(text='Homepage').grid(row=0,column=0)
 
 def sign_up():
     """
@@ -54,9 +80,9 @@ def sign_up():
     gvar=StringVar(frame2,'None')
     frame2.grid(row=1,column=1)
 
-    #Label(frame2,image=my_img2,bg=BACKGROUND1).grid(row=0,column=1,pady=(45,0))
+    Label(frame2,image=my_img2,bg=BACKGROUND1).grid(row=0,column=0,pady=(10,0))
 
-    Label(frame2,text="Sign up",font=100,bg='#90cad1',fg=FOREGROUND1).grid(row=1,column=1,pady=(20,60),sticky="W")
+    Label(frame2,text="Sign up",font=200,bg='#90cad1',fg=FOREGROUND1).grid(row=0,column=1,pady=(0,10),sticky="W")
 
     Label(frame2,text='            First name:',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=2,column=0)
     new_fname=Entry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
@@ -92,11 +118,11 @@ def sign_up():
     new_passwrd=Entry(frame2,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
     new_passwrd.grid(row=18,column=1,padx=(0,100),pady=(40,0))
 
-    Label(frame2,text='Confirm Password:',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=20,column=0,padx=(20,10))
+    Label(frame2,text='Confirm Password:',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=20,column=0,pady=(40,10))
     new_cpasswrd=Entry(frame2,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
-    new_cpasswrd.grid(row=20,column=1,pady=(30,0),padx=(0,100))
+    new_cpasswrd.grid(row=20,column=1,pady=(40,0),padx=(0,100))
     
-    Button(frame2,text='Submit',bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data).grid(row=22,column=1,pady=60,padx=(0,100))
+    Button(frame2,text='Submit',font=80,bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data,activebackground="green").grid(row=22,column=1,pady=60,padx=(0,100))
 
 def sign_up_data():
     global all_data
@@ -128,8 +154,14 @@ def sign_up_data():
 
     _check_data=check_cred.main(all_data)
     print(f'check : {_check_data}')
-    if not _check_data[0]:
-        signup_error_show(_check_data)
+
+    up_error_show(_check_data)
+    if not _check_data[0]:# Error found
+        sign
+    else:# Everything OK
+        DataActions.signup_submit(all_data)
+        messagebox.showinfo("Success","Submitted Sucessfully")
+        
 
     
 def signup_error_show(_where):
