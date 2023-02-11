@@ -61,6 +61,10 @@ def signup_submit(info:list) -> None:
     conn.close()
 
 def retrieve_all() -> list:
+    """
+        retrieves all data in form of a list.
+        [('Fname', 'Mname', 'Lname', 'Email', 'dateOfBirth', 'Gender', 'Username', 'Password', oid)]
+    """
     conn= sqlite3.connect(DATABASE)
 
     c= conn.cursor()
