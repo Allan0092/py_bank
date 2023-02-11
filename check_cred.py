@@ -1,17 +1,19 @@
-from email_validator import validate_email, EmailNotValidError
 from faker import Faker
 from datetime import datetime
+from validate_email import validate_email
+
+import DataActions
+
 
 def valid_email(__email):
     """
         checks for valid email
     """
-    try:
-        validate = validate_email(__email)
-        __email = validate["email"] 
+
+    is_valid = validate_email(__email)
+    if is_valid:
         return True, -1, None
-    except EmailNotValidError:
-        return False, 3, ' not valid'
+    return False, 3, ' not valid'
 
 def valid_dob(__dob):
     """
@@ -49,6 +51,23 @@ def valid_username(__username):
         if not letter.isalnum():
             if letter not in ['_','-','@','.']:
                 return False, 5, " not valid"
+    return True, -1, None
+
+def username_is_unique(info):
+    """
+        Checks if username is already taken.
+    """
+    all_users=DataActions.retrieve_all()  
+    for user in all_users:
+        if user[6]==info:
+            return False, 5, " already taken"
+    return True, -1, None
+
+def email_is_unique(info):
+    all_users=DataActions.retrieve_all()  
+    for user in all_users:
+        if user[3]==info:
+            return False, 3, " already taken"
     return True, -1, None
 
 def valid_password(__passwrd):
@@ -143,6 +162,16 @@ def syntax_check(information):
 
     return True, -1, None
 
+def is_unique_check(information:list):
+    for_username=username_is_unique(information[5])
+    for_email=email_is_unique(information[3])
+    if not for_username[0]:
+        return for_username
+    elif not for_email:
+        return for_email
+    else:
+        return True, -1, None
+
 def main(info):
     """
         main function.
@@ -162,7 +191,11 @@ def main(info):
     if check1[0]:
         check2=within_limit_check(info)
         if check2[0]:
-            return syntax_check(info)
+            check3=syntax_check(info)
+            if check3[0]:
+                return is_unique_check(info)
+            else:
+                return check3
         else:
             return check2
     else:
@@ -170,9 +203,7 @@ def main(info):
 
 if __name__=="__main__":
     id = Faker()
-
     """for i in range(200):
-        a=id.email()
-        if check_email(a)==None:
-            print(a)"""
+            a=id.email()
+            print(valid_email(a))"""
 
