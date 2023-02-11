@@ -178,7 +178,11 @@ def sign_up_data():
         messagebox.showinfo("Success","Submitted Sucessfully")
         
 
-def signup_error_show(_where):
+def signup_error_show(_where:list) -> None:
+    """
+        displays the error message at sign up page
+    """
+
     global signup_error1
 
     #[symbol number, field name, row]
@@ -208,6 +212,10 @@ def signup_error_show(_where):
 
 
 def main():
+    """
+        main function. Defines images, colours, window size and title.
+    """
+
     global win,BACKGROUND1,BACKGROUND2,FOREGROUND1,IMAGE,IMAGE2,IMAGE3,IMAGE4,IMAGE5,IMAGE6,IMAGE7,my_img,my_img2,my_img3
 
     win = Tk()
