@@ -72,7 +72,6 @@ def retrieve_all() -> list:
     c.execute("SELECT *, oid FROM Account")
 
     records= c.fetchall()#[(),()]
-    print(records)
 
     return records
 
