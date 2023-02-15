@@ -10,8 +10,8 @@ def valid_email(__email):
         checks for valid email
     """
 
-    is_valid = validate_email(__email)
-    if is_valid:
+    is_valid = validate_email(__email)# checks if email is valid.
+    if is_valid:# Is valid
         return True, -1, None
     return False, 3, ' not valid'
 
@@ -24,10 +24,10 @@ def valid_dob(__dob):
 
     the_rest=__dob[:-3]
     length=len(the_rest)
-    if length==3:# checks "1-2"
+    if length==3:# checks for "1-2"
         if the_rest[0].isdigit()==False or the_rest[1]!='-' or not the_rest[2].isdigit():
             return False, 4, ' not Valid'
-    elif length==4:# checks "1-23" or "12-3"
+    elif length==4:# checks for "1-23" or "12-3"
         if the_rest[1]=='-':
             if not the_rest[2].isdigit() or not the_rest[3].isdigit():
                 return False, 4, ' not Valid'
@@ -36,7 +36,7 @@ def valid_dob(__dob):
                 return False, 4, ' not Valid'
         else:
             return False, 4, ' not Valid'
-    elif length==5:# checks "12-34"
+    elif length==5:# checks for "12-34"
         if the_rest[2]!='-':
             return False, 4, ' not Valid'
         if not the_rest[:2].isdigit() or not the_rest[3:5].isdigit():
@@ -45,7 +45,8 @@ def valid_dob(__dob):
 
 def valid_username(__username):
     """
-        checks if given valid username
+        checks if given valid username.
+        username should contain letter, number, '_', '-', '@' and '.' 
     """
     for letter in __username:
         if not letter.isalnum():
@@ -57,53 +58,57 @@ def username_is_unique(info):
     """
         Checks if username is already taken.
     """
-    all_users=DataActions.retrieve_all()  
-    for user in all_users:
+    all_users=DataActions.retrieve_all()# Gets all data from Account table.
+    for user in all_users:# gets all information about a user sequentially.
         if user[6]==info:
             return False, 5, " already taken"
     return True, -1, None
 
 def email_is_unique(info):
-    all_users=DataActions.retrieve_all()  
-    for user in all_users:
-        if user[3]==info:
+    """
+        Checks if given email is already registered.
+    """
+    all_users=DataActions.retrieve_all()# Gets all data from Account table.
+    for user in all_users:# gets all information about a user sequentially.
+        if user[3]==info:# the email is already registered.
             return False, 3, " already taken"
     return True, -1, None
 
 def valid_password(__passwrd):
     """
-        checks if given valid password
+        checks if given valid password.
+        A valid password must contain Uppercase, Lowercase, number and symbol.
     """
     variety=[False,False,False,False]# [Uppercase, Lowercase, number, symbol]
     for char in __passwrd:
-        if char.isalpha():
-            if char.isupper():
+        if char.isalpha():# checks for alphabet.
+            if char.isupper():# checks for capital letter.
                 variety[0]=True
-            elif char.islower():
+            elif char.islower():# checks for small letter.
                 variety[1]=True
-        elif char.isdigit():
+        elif char.isdigit():# checks for digit.
             variety[2]=True
-        elif char==' ':
+        elif char==' ':# checks for empty space.
             pass
-        else:
+        else:# the character is a symbol.
             variety[3]=True
-    for v in variety:
-        if not v:
+    for v in variety:# checks if all criteria is met.
+        if not v:# A criteria is not met.
             return False, 6, ' not valid'
     return True, -1, None
 
 def both_passwords_match(information):
     """
-        checks if both passwords match
+        checks if both passwords match.
     """
-    if information[6]==information[7]:
-        return True, -1, None
-    else:
+    if information[6]==information[7]:# password and confirm password matches.
+        return True, -1, None 
+    else: # password and confirm password does not match.
         return False, 7, " does not match"
 
 def emptyfield_check(information):
     '''
-        Checks for empty fields
+        Checks if any field is left empty.
     '''
     for n,info in enumerate(information):
         if info=="" or info==None or info=='None':
@@ -114,9 +119,9 @@ def emptyfield_check(information):
 
 def within_limit_check(information):
     '''
-        checks if characters are within limit
+        checks if characters are within character limit.
     '''
-    if len(information[0])<2 or len(information[0])>20:# first name
+    if len(information[0])<2 or len(information[0])>20:# first name 
         return False, 0, ' must be between 2-20 letters'
     if len(information[1])>20:# middle name
         return False, 1, ' must be smaller than 20 letters'
@@ -134,35 +139,38 @@ def syntax_check(information):
     """
         checks if valid characters are given
     """
-    for j in range(3):# First, middle and last name
+    for j in range(3):# First, middle and last name.
         for i in information[j]:
-            _check=i.isalpha()
+            _check=i.isalpha()# checks if it's alphabet.
             if not _check:
                 return _check, j, ' can only have letters' 
 
-    email_check=valid_email(information[3])# email checker
+    email_check=valid_email(information[3])# email checker.
     if not email_check[0]:
         return email_check
     
-    dob_check=valid_dob(information[4])# date of birth checker
+    dob_check=valid_dob(information[4])# date of birth checker.
     if not dob_check[0]:
         return dob_check
     
-    username_check=valid_username(information[5])# username checker
+    username_check=valid_username(information[5])# username checker.
     if not username_check[0]:
         return username_check
 
-    password_check=valid_password(information[6])# password checker
+    password_check=valid_password(information[6])# password checker.
     if not password_check[0]:
         return password_check
 
-    conf_password_check=both_passwords_match(information)
+    conf_password_check=both_passwords_match(information)# if confirm password matches.
     if not conf_password_check[0]:
         return conf_password_check
 
     return True, -1, None
 
 def is_unique_check(information:list):
+    """
+        Checks if username and email is already taken.
+    """
     for_username=username_is_unique(information[5])
     for_email=email_is_unique(information[3])
     if not for_username[0]:
