@@ -13,34 +13,40 @@ def login_page():
     global login_frame,login_username,login_password,py_bank_logo,py_bank_title
 
     def clicked_signup():
+        """
+            Deletes login frame, py_bank title and calls sign_up function.
+        """
         login_frame.grid_forget()
         py_bank_title.grid_forget()
         sign_up()
 
-    py_bank_logo=Label(image=my_img,bg=BACKGROUND1)
-    py_bank_logo.grid(row=0,column=0,rowspan=19,ipady=400)# Py Bank Logo
+    py_bank_logo=Label(image=my_img,bg=BACKGROUND1)# Py Bank Logo
+    py_bank_logo.grid(row=0,column=0,rowspan=19,ipady=400)
 
-    py_bank_title=Label(image=my_img3,bg=BACKGROUND1)
-    py_bank_title.grid(row=0,column=1,pady=(300,0))# Py Bank Text Image
+    py_bank_title=Label(image=my_img3,bg=BACKGROUND1)# Py Bank Text Image
+    py_bank_title.grid(row=0,column=1,pady=(300,0))
     #Label(win,text="Py Bank",font=20,bg=BACKGROUND1,fg=FOREGROUND1).grid(row=0,column=2,pady=60)
 
-    login_frame=LabelFrame(win,bg=BACKGROUND1,border=10,padx=100,pady=100)
+    login_frame=LabelFrame(win,bg=BACKGROUND1,border=10,padx=100,pady=100)# contains username and password
     login_frame.grid(row=1,column=1)
 
+    # Username 
     Label(login_frame,text="Username",bg=BACKGROUND1,fg=FOREGROUND1,font=15).grid(row=1,column=1,padx=30)
     login_username=Entry(login_frame,bg=BACKGROUND2,fg=FOREGROUND1)
     login_username.grid(row=1,column=2,padx=(0,80))
     
-
+    # Password
     Label(login_frame,text="Password",bg=BACKGROUND1,fg=FOREGROUND1,font=15).grid(row=3,column=1,pady=(30,0))
     login_password=Entry(login_frame,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
     login_password.grid(row=3,column=2,padx=(0,80),sticky="S")
     
+    # Login Button
     Button(login_frame,text='Log In',command=login_check).grid(row=5,column=2,padx=(0,80),pady=30)
 
     Label(login_frame,text='OR',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=6,column=2,padx=(0,80))
     Label(login_frame,text="Don't have an account?",bg=BACKGROUND1).grid(row=8,column=1,sticky='E')
 
+    # Sign up Button
     Button(login_frame,text="Sign Up",command=clicked_signup).grid(row=8,column=2,pady=30,padx=(0,80))
 
 def login_check():
@@ -49,17 +55,20 @@ def login_check():
     """
     global logged_in_name
 
-    try:
+    try:# Removes any previous error if it's made 
         login_error1.grid_forget()
         login_error2.grid_forget()
     except NameError:
         pass
 
-    all_clients=DataActions.retrieve_all()
+    all_clients=DataActions.retrieve_all()# gets all data from table Account
 
-    for client in all_clients:
-        if login_username.get()==client[6]:
-            if login_password.get()==client[7]:
+    for client in all_clients:# gets individual client details in format [('Fname', 'Mname', 'Lname', 'Email', 'dateOfBirth', 'Gender', 'Username', 'Password', oid)]
+        if login_username.get()==client[6]:# Checks if given username exits.
+            if login_password.get()==client[7]:# Checks if username's password matches.
+                """
+                    Username and password matches so deletes login page and opens homepage.
+                """
                 login_frame.grid_forget()
                 py_bank_logo.grid_forget()
                 py_bank_title.grid_forget()
@@ -82,9 +91,9 @@ def login_error_show(what:int):
     login_error1=Label(login_frame,text="Username not found",fg='red',bg=BACKGROUND1)
     login_error2=Label(login_frame,text="Password is incorrect",fg="red",bg=BACKGROUND1)
 
-    if what==1:
+    if what==1:# shows "Username not found"
         login_error1.grid(row=2,column=2,sticky="WN")
-    elif what==2:
+    elif what==2:# shows "Password is incorrect"
         login_error2.grid(row=4, column=2,sticky="WN")
 
 def sign_up():
@@ -94,11 +103,15 @@ def sign_up():
 
     global signup_frame,new_fname,new_lname,new_mname,new_email,new_dob,new_passwrd,new_cpasswrd,gvar,new_uname
 
-    py_bank_title.grid(row=0,column=1,pady=(200,0))
-    signup_frame=LabelFrame(win,bg=BACKGROUND1,border=10,padx=10,pady=10)
+    py_bank_title.grid(row=0,column=1,pady=(200,0))# places "Py Bank" title on top
+
+    signup_frame=LabelFrame(win,bg=BACKGROUND1,border=10,padx=10,pady=10)# Frame for sign up data
     signup_frame.grid(row=1,column=1)
 
     def clicked_login():
+        """
+            Deletes sign_up frame, pybank title and logo. Then goes back to login page.
+        """
         signup_frame.grid_forget()
         py_bank_title.grid_forget()
         py_bank_logo.grid_forget()
@@ -159,6 +172,9 @@ def sign_up():
     Button(signup_frame,text='Log in',fg=FOREGROUND1,command=clicked_login).grid(row=24,column=1,pady=(0,20),padx=(0,100))
 
 def sign_up_data():
+    """
+        Processes all data from sign up page, then checks for errors and finnally submits data into Account table.
+    """
     global all_data
 
     # print(f'First name {new_fname.get()}')
@@ -183,22 +199,26 @@ def sign_up_data():
     data_passwrd=new_passwrd.get()
     data_confpasswrd=new_cpasswrd.get()
     data_gender=gvar.get()
-
+    """
+    Places all the data into a list.
+    """
     all_data=[data_fname, data_mname, data_lname, data_email, data_dob, data_uname, data_passwrd, data_confpasswrd,data_gender]
 
-    _check_data=check_cred.main(all_data)
+    _check_data=check_cred.main(all_data)# checks for errors.
     # print(f'check : {_check_data}')
 
     if not _check_data[0]:# Error found
-        signup_error_show(_check_data)
+        signup_error_show(_check_data)# Shows respective error.
 
-    else:# Everything OK
-        DataActions.signup_submit(all_data)
+    else:# No error found.
+        DataActions.signup_submit(all_data)# Adds data to Account table.
         messagebox.showinfo("Success","Submitted Sucessfully")
         
 def signup_error_show(_where:list) -> None:
     """
         displays the error message at sign up page
+        Arguement:
+            _where:list
     """
 
     global signup_error1
@@ -216,7 +236,7 @@ def signup_error_show(_where:list) -> None:
         [8 , 'gender', 15]
     ]
 
-    try:
+    try:# removes any previous error in sign up page.
         signup_error1.grid_forget()
     except NameError:
         pass
@@ -225,7 +245,7 @@ def signup_error_show(_where:list) -> None:
     _text=error_codes[_where[1]][1]
     # print(f'\nError : {_text}\nat {_row}')
 
-    signup_error1=Label(signup_frame,text=_text + _where[2],fg='red',bg=BACKGROUND1)
+    signup_error1=Label(signup_frame,text=_text + _where[2],fg='red',bg=BACKGROUND1)# error in sign up page
     signup_error1.grid(row=_row,column=1,columnspan=4,sticky='WN')
 
 def homepage():
@@ -233,10 +253,10 @@ def homepage():
         The homepage, after login is successfull.
     """
 
-    homepage_PybankLogo=Label(win,image=my_img7)
+    homepage_PybankLogo=Label(win,image=my_img7)# Py bank logo in home page at the top left corner.
     homepage_PybankLogo.grid(row=0,column=0,rowspan=3)
 
-    Label(win,text=f"Welcome {logged_in_name},").grid(row=0,column=1)
+    Label(win,text=f"Welcome {logged_in_name},").grid(row=0,column=1)# Welcome message at top.
 
     homepage_frame1=LabelFrame(win)
     homepage_frame1.grid(row=1,column=1)
@@ -258,6 +278,7 @@ def homepage():
 def main():
     """
         main function. Defines images, colours, window size and title.
+        Calls login page.
     """
 
     global win,BACKGROUND1,BACKGROUND2,FOREGROUND1,my_img,my_img2,my_img3,my_img7
@@ -271,7 +292,9 @@ def main():
     BACKGROUND2="white"
     FOREGROUND1='black'
     win.config(background=BACKGROUND1)
-
+    """
+    Path for all images used.
+    """
     IMAGE="images/logo"
     IMAGE2="images/logo2"
     IMAGE3="images/logo3.png"
@@ -281,7 +304,7 @@ def main():
     IMAGE7="images/logo7.png"
 
 
-    TITLE="images/title.png"
+    TITLE="images/title.png"# Py Bank title
 
     my_img=ImageTk.PhotoImage(Image.open(IMAGE6))# login page
     my_img2=ImageTk.PhotoImage(Image.open(IMAGE4),size=(1,1))# signup page
@@ -290,7 +313,7 @@ def main():
 
     login_page()
 
-    win.mainloop()
+    win.mainloop()# loops the window.
 
 if __name__=="__main__":
     main()
