@@ -5,7 +5,7 @@ DATABASE="bank_data.db"
 
 def configure() -> None:
     '''
-        execute if table not created.
+        execute if table is not created.
     '''
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
@@ -28,7 +28,6 @@ def configure() -> None:
     conn.close()
 
 def signup_submit(info:list) -> None:
-
     """
         submits data from sign up page into database.
         Arguments:
@@ -77,7 +76,7 @@ def retrieve_all() -> list:
 
     conn.close()
 
-try:
+try:# Creates tables for new host machine.
     configure()
 except sqlite3.OperationalError:
     pass
