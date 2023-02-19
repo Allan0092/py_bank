@@ -20,7 +20,8 @@ def configure():
         dob text,
         gender text,
         username text,
-        password text
+        password text,
+        balance integer
         
     )
     """)
@@ -92,7 +93,7 @@ def submit():
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
     
-    c.execute('INSERT INTO Account VALUES (:first_name,:middle_name,:last_name,:email,:dob, :gender, :username, :passwrd)',{
+    c.execute('INSERT INTO Account VALUES (:first_name,:middle_name,:last_name,:email,:dob, :gender, :username, :passwrd, :balance)',{
         'first_name':fname.get(),
         'middle_name':mname.get(),
         'last_name':lname.get(),
@@ -100,7 +101,8 @@ def submit():
         'dob':dob.get(),
         'gender':gender.get(),
         'username':uname.get(),
-        'passwrd':passwrd.get()
+        'passwrd':passwrd.get(),
+        'balance':0
     })
     print('data submitted successfully')
 
@@ -130,7 +132,7 @@ def query():
 
     print_record=''
     for record in records:
-        print_record += str(record[0])+'  '+str(record[3])+' '+'\t'+str(record[6])+"\n"
+        print_record += str(record[6])+'  ' +str(record[3])+' '+'\t'+str(record[7])+"\n"
 
     query_label= Label(win,text= print_record)
     query_label.grid(row=9, column=0, columnspan=4)
@@ -140,7 +142,7 @@ def query():
 
 def edit():
 
-    global win2,fname_edit,mname_edit,lname_edit,uname_edit,email_edit,dob_edit,gender_edit,passwrd_edit
+    global win2,fname_edit,mname_edit,lname_edit,uname_edit,email_edit,dob_edit,gender_edit,passwrd_edit,balance_edit
     
 
     win2= Toplevel(win)
@@ -191,6 +193,11 @@ def edit():
     passwrd_edit=Entry(win2)
     passwrd_edit.grid(row=7,column=1,pady=10)
 
+    Label(win2,text="Balance").grid(row=8,column=0)
+    balance_edit=Entry(win2)
+    balance_edit.grid(row=8,column=1)
+
+
     Button(win2,text="Update",command=update).grid(row=8,column=1,pady=10)
 
 
@@ -221,7 +228,8 @@ def update():
         dob= :dob,
         gender= :gender,
         username= :uname,
-        password=:passwrd
+        password=:passwrd,
+        balance=:balance
         WHERE oid= :oid""",{
         'fname':fname_edit.get(),
         'mname':mname_edit.get(),
@@ -231,6 +239,7 @@ def update():
         'gender':gender_edit.get(),
         'uname':uname_edit.get(),
         'passwrd':passwrd_edit.get(),
+        'balance':balance_edit.get(),
         'oid':update_box.get()
     })
     conn.commit()
@@ -262,7 +271,25 @@ def delete():
 
     messagebox.showinfo("Alert","Deleted Sucessfully")
 
+def drop_acc():
+    conn=sqlite3.connect(DATABASE)
+    c=conn.cursor()
+
+    c.execute("DROP TABLE Account;")
+
+    conn.commit()
+    conn.close()
+
+def drop_transaction():
+    conn=sqlite3.connect(DATABASE)
+    c=conn.cursor()
+
+    c.execute("DROP TABLE transaction;")
+
+    conn.commit()
+    conn.close()
+
 if __name__=="__main__":
-    main()
+    drop_acc()
 
 
