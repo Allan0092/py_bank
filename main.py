@@ -3,7 +3,7 @@ from tkinter import messagebox
 from tkcalendar import DateEntry
 from PIL import ImageTk,Image
 
-import check_cred,DataActions
+import check_cred,DataActions,transfer
 
 
 def login_page():
@@ -273,6 +273,31 @@ def homepage():
     homepage_frame4=LabelFrame(win)
     homepage_frame4.grid(row=2,column=2,sticky="N")
     Label(homepage_frame4,text='20,000').grid(row=0,column=0)
+
+    Button(win,text="refresh").grid(row=1,column=3)# Refreah button
+
+    homepage_frame5=LabelFrame(win)# Transaction Frame
+    homepage_frame5.grid(row=3,column=2)
+    Label(homepage_frame5,text="Quick Fund Transfer").grid(row=0,column=0,columnspan=2)
+
+    Label(homepage_frame5,text="To Account").grid(row=1,column=0)# To Account 
+    homepage_toaccount=Entry(homepage_frame5)
+    homepage_toaccount.grid(row=1,column=1)
+
+    Label(homepage_frame5,text="Account Name").grid(row=2,column=0)# Account name
+    homepage_accountname=Entry(homepage_frame5)
+    homepage_accountname.grid(row=2,column=1)
+
+    Label(homepage_frame5,text="Amount").grid(row=3,column=0)# Amount
+    homepage_amount=Entry(homepage_frame5)
+    homepage_amount.grid(row=3,column=1)
+
+    Label(homepage_frame5,text="Remarks").grid(row=4,column=0)# Remarks
+    homepage_remarks=Entry(homepage_frame5)
+    homepage_remarks.grid(row=4,column=1)
+
+    Button(homepage_frame5,text="transfer").grid(row=5,column=0,columnspan=2)# transfer button
+
 
 
 def main():
