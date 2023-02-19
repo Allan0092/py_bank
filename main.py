@@ -115,7 +115,7 @@ def sign_up():
 
     Label(frame2,text='      Date of Birth:',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=10,column=0)
     new_dob=DateEntry(frame2,bg=BACKGROUND2,fg=FOREGROUND1)
-    new_dob.grid(row=10,column=1,ipadx=40,sticky="W",pady=(30,0))
+    new_dob.grid(row=10,column=1,ipadx=40,sticky="W",pady=(20,0))
 
     Label(frame2,text='Gender:    ',bg='#90cad1',fg=FOREGROUND1).grid(row=12,column=0,pady=(30,0),sticky='E')
     _rowcnt=12
