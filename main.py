@@ -75,9 +75,9 @@ def login_check():
                 logged_in_name=f"{client[0]} {client[2]}"
                 homepage()    
             else:
-                login_error_show(2)# Wrong password
-        else:
-            login_error_show(1)# Username not found
+                login_error_show(2)# Wrong password    
+                return    
+    login_error_show(1)# Username not found
     
 def login_error_show(what:int):
     """
