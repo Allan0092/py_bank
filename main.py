@@ -75,9 +75,9 @@ def login_check():
                 logged_in_name=f"{client[0]} {client[2]}"
                 homepage()    
             else:
-                login_error_show(2)# Wrong password    
-                return    
-    login_error_show(1)# Username not found
+                login_error_show(2)# Wrong password
+        else:
+            login_error_show(1)# Username not found
     
 def login_error_show(what:int):
     """
@@ -260,7 +260,7 @@ def homepage():
 
     homepage_frame1=LabelFrame(win)
     homepage_frame1.grid(row=1,column=1)
-    Label(homepage_frame1,text="Account Number").grid(row=0,column=0)
+    Label(homepage_frame1,text="Account username").grid(row=0,column=0)
 
     homepage_frame2=LabelFrame(win,borderwidth=5)
     homepage_frame2.grid(row=2,column=1,sticky="N")
@@ -297,6 +297,22 @@ def homepage():
     homepage_remarks.grid(row=4,column=1)
 
     Button(homepage_frame5,text="transfer").grid(row=5,column=0,columnspan=2)# transfer button
+
+    homepage_frame6=LabelFrame(win)# Load fund
+    homepage_frame6.grid(row=4,column=2)
+
+    Label(homepage_frame6,text="Load Fund").grid(row=0,column=0,columnspan=2)# Load fund title
+
+    Label(homepage_frame6,text="Amount").grid(row=1,column=0)# Amount
+    homepage_loadfund=Entry(homepage_frame6)
+    homepage_loadfund.grid(row=1,column=1)
+
+    Button(homepage_frame6,text="load").grid(row=2,column=0,columnspan=2)# load button
+
+    Button(win,text='sign out').grid(row=4,column=3)
+
+
+
 
 
 
