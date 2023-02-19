@@ -1,7 +1,7 @@
 from tkinter import *
 from tkcalendar import DateEntry
+from tkinter import messagebox
 from PIL import ImageTk,Image
-import admin_crude,check_cred
 
 import check_cred,DataActions
 
@@ -14,6 +14,7 @@ def login_page():
 
     def clicked_signup():
         frame.grid_forget()
+        py_bank_title.grid_forget()
         sign_up()
 
     py_bank_logo=Label(image=my_img,bg=BACKGROUND1)
@@ -35,10 +36,11 @@ def login_page():
     login_password=Entry(frame,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
     login_password.grid(row=2,column=2,padx=(0,80))
     
-    Button(frame,text='Log In',font=80,activebackground="green").grid(row=3,column=2,padx=(0,80),pady=30)
+    Button(frame,text='Log In',font=80,activebackground="green",command=login_check).grid(row=3,column=2,padx=(0,80),pady=30)
     Label(frame,text='OR',bg=BACKGROUND1,fg=FOREGROUND1,font=50).grid(row=4,column=2,padx=(0,80))
+
     Label(frame,text="Don't have a account?",bg="#90cad1",fg="black",font=20).grid(row=5,column=1,padx=(0,0),sticky="E")
-    Button(frame,text="Sign Up",command=sign_up,font=60,activebackground="red").grid(row=5,column=2,pady=30,padx=(0,80))
+    Button(frame,text="Sign Up",command=clicked_signup,font=60,activebackground="red").grid(row=5,column=2,pady=30,padx=(0,80))
 
 def login_check():
     """
@@ -70,7 +72,18 @@ def sign_up():
 
     global frame2,new_fname,new_lname,new_mname,new_email,new_dob,new_passwrd,new_cpasswrd,gvar,new_uname
 
-    frame2=LabelFrame(win,bg=BACKGROUND1,border=10,padx=10,pady=10)
+
+
+
+
+    #py_bank_title.grid(row=0,column=1,pady=(200,0))
+    frame2=LabelFrame(win,bg=BACKGROUND1,border=3,padx=10,pady=10)
+    frame2.grid(row=1,column=1)
+
+    def clicked_login():
+        frame2.grid_forget()
+        py_bank_title.grid_forget()
+        login_page()
 
     gvals=[
         ("Male",'male'),
@@ -78,7 +91,7 @@ def sign_up():
         ("Other",'other')
     ]
     gvar=StringVar(frame2,'None')
-    frame2.grid(row=1,column=1)
+
 
     Label(frame2,image=my_img2,bg=BACKGROUND1).grid(row=0,column=0,pady=(10,0))
 
@@ -122,8 +135,10 @@ def sign_up():
     new_cpasswrd=Entry(frame2,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
     new_cpasswrd.grid(row=20,column=1,pady=(40,0),padx=(0,100))
     
-    Button(frame2,text='Submit',font=80,bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data,activebackground="green").grid(row=22,column=1,pady=60,padx=(0,100))
+    Button(frame2,text='Submit',font=80,bg=BACKGROUND2,fg=FOREGROUND1,command=sign_up_data,activebackground="green").grid(row=22,column=1,pady=10,padx=(0,100))
 
+    Label(frame2,text='OR',bg=BACKGROUND1,font=50).grid(row=23, column=1,padx=(0,100),pady=5)
+    Button(frame2,text='Log in',bg=BACKGROUND2,fg=FOREGROUND1,command=clicked_login,font=80).grid(row=24,column=1,pady=(0,20),padx=(0,100))
 def sign_up_data():
     global all_data
 
@@ -155,9 +170,9 @@ def sign_up_data():
     _check_data=check_cred.main(all_data)
     print(f'check : {_check_data}')
 
-    up_error_show(_check_data)
     if not _check_data[0]:# Error found
-        sign
+        signup_error_show(_check_data)
+
     else:# Everything OK
         DataActions.signup_submit(all_data)
         messagebox.showinfo("Success","Submitted Sucessfully")
@@ -223,6 +238,8 @@ def main():
 
     login_page()
 
+    win.mainloop()
+
 if __name__=="__main__":
     main()
-    win.mainloop()
+    
