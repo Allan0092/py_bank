@@ -11,7 +11,7 @@ def configure():
     c=conn.cursor()
 
     c.execute("""
-    create table Account(
+    create table transaction(
         id text,
         date text,
         from_acc text,
@@ -22,6 +22,23 @@ def configure():
     """)
     print("database created successfully")
     conn.commit()
+    conn.close()
+
+def retrieve_all():
+    """
+        retrieves all data in the form of a list.
+        [('id', 'date', 'from_account', 'to_acc', 'remarks', 'status', oid)]
+    """
+    conn= sqlite3.connect(DATABASE)
+
+    c= conn.cursor()
+
+    c.execute("SELECT *, oid FROM transaction")
+
+    records= c.fetchall()#[(),()]
+
+    return records
+
     conn.close()
 
 def transfer(info):
@@ -39,20 +56,18 @@ def transfer(info):
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
 
-    c.execute('INSERT INTO Account VALUES (:id,:date,:from_acc,:to_acc,:remarks, :status)',{
+    c.execute('INSERT INTO transaction VALUES (:id,:date,:from_acc,:to_acc,:remarks, :status)',{
         'id':info[0],
         'date':info[1],
         'from_acc':info[2],
         'to_acc':info[3],
         'remarks':info[4],
-        'status':info[8]
+        'status':info[5]
     })
     print('amount transfered successfully')
 
     conn.commit()
     conn.close()
-
-
 
 def main(info):
     """
@@ -66,8 +81,6 @@ def main(info):
             status : 5
     """
     
-
-
 try:
     configure()
 except sqlite3.OperationalError:
