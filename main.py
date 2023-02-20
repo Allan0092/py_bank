@@ -268,26 +268,28 @@ def homepage(client:list):
         The homepage, after login is successfull.
     """
 
-    homepage_PybankLogo=Label(win,image=my_img7)# Py bank logo in home page at the top left corner.
-    homepage_PybankLogo.grid(row=0,column=0,rowspan=3)
+    #homepage_PybankLogo=Label(win,image=my_img7)# Py bank logo in home page at the top left corner.
+    #homepage_PybankLogo.grid(row=0,column=0,rowspan=2)
 
-    homepage_welcome_label=Label(win,text=f"Welcome {logged_in_name},")# Welcome message at top.
+    py_bank_logo.grid(row=0,column=0,rowspan=19,ipady=400)
+
+    homepage_welcome_label=Label(win,text=f"Welcome {logged_in_name},",font=20)# Welcome message at top.
     homepage_welcome_label.grid(row=0,column=1)
 
-    homepage_frame1=LabelFrame(win)
-    homepage_frame1.grid(row=1,column=1)
+    homepage_frame1=LabelFrame(win,padx=20,pady=20)
+    homepage_frame1.grid(row=2,column=1,sticky="S")
     Label(homepage_frame1,text="Account Number").grid(row=0,column=0)
 
-    homepage_frame2=LabelFrame(win,borderwidth=5)# Account Number
-    homepage_frame2.grid(row=2,column=1,sticky="N")
+    homepage_frame2=LabelFrame(win,borderwidth=5,padx=50,pady=10)# Account Number
+    homepage_frame2.grid(row=3,column=1,sticky="N")
     Label(homepage_frame2,text=client[9]).grid(row=0,column=0)
 
-    homepage_frame3=LabelFrame(win)
-    homepage_frame3.grid(row=1,column=2)
+    homepage_frame3=LabelFrame(win,padx=20,pady=20)
+    homepage_frame3.grid(row=2,column=2,sticky="S")
     Label(homepage_frame3,text="Account Balance").grid(row=0,column=0)
 
-    homepage_frame4=LabelFrame(win)# Account Balance
-    homepage_frame4.grid(row=2,column=2,sticky="N")
+    homepage_frame4=LabelFrame(win,padx=60,pady=10)# Account Balance
+    homepage_frame4.grid(row=3,column=2,sticky="N")
     homepage_balance=Label(homepage_frame4,text=f'Rs. {client[8]}')
     homepage_balance.grid(row=0,column=0)
 
@@ -304,21 +306,21 @@ def homepage(client:list):
     homepage_refresh=Button(win,text="refresh",command=clicked_refresh)# Refresh button
     homepage_refresh.grid(row=1,column=3)
 
-    homepage_frame5=LabelFrame(win)# Transaction Frame
-    homepage_frame5.grid(row=3,column=2)
-    Label(homepage_frame5,text="Quick Fund Transfer").grid(row=0,column=0,columnspan=2)
+    homepage_frame5=LabelFrame(win,border=10,padx=50,pady=50)# Transaction Frame
+    homepage_frame5.grid(row=5,column=1,padx=50,pady=50,columnspan=2)
+    Label(homepage_frame5,text="Quick Fund Transfer").grid(row=0,column=0,columnspan=2,pady=(0,50))
 
     Label(homepage_frame5,text="To Account").grid(row=1,column=0)# To Account 
     homepage_toaccount=Entry(homepage_frame5)
-    homepage_toaccount.grid(row=1,column=1)
+    homepage_toaccount.grid(row=1,column=1,pady=(0,20))
 
     Label(homepage_frame5,text="Account Name").grid(row=2,column=0)# Account name
     homepage_accountname=Entry(homepage_frame5)
-    homepage_accountname.grid(row=2,column=1)
+    homepage_accountname.grid(row=2,column=1,pady=(0,20))
 
     Label(homepage_frame5,text="Amount").grid(row=3,column=0)# Amount
     homepage_amount=Entry(homepage_frame5)
-    homepage_amount.grid(row=3,column=1)
+    homepage_amount.grid(row=3,column=1,pady=(0,20))
 
     Label(homepage_frame5,text="Remarks").grid(row=4,column=0)# Remarks
     homepage_remarks=Entry(homepage_frame5)
@@ -326,24 +328,24 @@ def homepage(client:list):
 
     def clicked_transfer():
         transaction_info=['id 0','amount 1','date 2','from 3','to 4', 'uname 5','remark 6','status 7']
-        transaction_info[1]=homepage_amount.get()
+        transaction_info[1]=int(homepage_amount.get())
         transaction_info[3]=client[9]
-        transaction_info[4]=homepage_toaccount.get()
+        transaction_info[4]=int(homepage_toaccount.get())
         transaction_info[5]=homepage_accountname.get()
         transaction_info[6]=homepage_remarks.get()
 
         transfer.main(transaction_info)
 
         homepage_toaccount.delete(0,END)
-        homepage_remarks(0,END)
+        homepage_remarks.delete(0,END)
         homepage_accountname.delete(0,END)
         homepage_amount.delete(0,END)
 
 
-    Button(homepage_frame5,text="transfer",command=clicked_transfer).grid(row=5,column=0,columnspan=2)# transfer button
+    Button(homepage_frame5,text="transfer",command=clicked_transfer).grid(row=5,column=0,columnspan=2,pady=30)# transfer button
 
-    homepage_frame6=LabelFrame(win)# Load fund
-    homepage_frame6.grid(row=4,column=2)
+    """homepage_frame6=LabelFrame(win)# Load fund
+    homepage_frame6.grid(row=7,column=2)
 
     Label(homepage_frame6,text="Load Fund").grid(row=0,column=0,columnspan=2)# Load fund title
 
@@ -359,23 +361,7 @@ def homepage(client:list):
         DataActions.edit(tmp)
         print('Amount added')
 
-    Button(homepage_frame6,text="load",command=clicked_loadfund).grid(row=2,column=0,columnspan=2)# load button
-
-    def remove_homepage():
-        """
-            removes homepage. 
-        """
-        homepage_frame1.grid_forget()
-        homepage_frame2.grid_forget()
-        homepage_frame3.grid_forget()
-        homepage_frame4.grid_forget()
-        homepage_frame5.grid_forget()
-        homepage_frame6.grid_forget()
-
-        homepage_refresh.grid_forget()
-        homepage_welcome_label.grid_forget()
-        homepage_PybankLogo.grid_forget()
-        homepage_signout.grid_forget()
+    Button(homepage_frame6,text="load",command=clicked_loadfund).grid(row=2,column=0,columnspan=2)# load button"""
 
     def clicked_signout():
         """
@@ -386,7 +372,25 @@ def homepage(client:list):
 
         
     homepage_signout=Button(win,text='sign out',command=clicked_signout)
-    homepage_signout.grid(row=4,column=3)
+    homepage_signout.grid(row=10,column=1,pady=20,columnspan=2)
+
+    def remove_homepage():
+        """
+            removes homepage. 
+        """
+        homepage_frame1.grid_forget()
+        homepage_frame2.grid_forget()
+        homepage_frame3.grid_forget()
+        homepage_frame4.grid_forget()
+        homepage_frame5.grid_forget()
+        #homepage_frame6.grid_forget()
+
+        homepage_refresh.grid_forget()
+        homepage_welcome_label.grid_forget()
+        py_bank_logo.grid_forget()
+        homepage_signout.grid_forget()
+
+    
 
 
 

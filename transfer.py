@@ -90,28 +90,34 @@ def enough_balance(info):
     all_users=DataActions.retrieve_all()
     
     for user in all_users:
-        if info[3]==user[6]:
-            if user[9]>=info[1]:
+        if info[3]==user[9]:
+            if user[8]>=info[1]:
                 return True, -1, None
             else:
                 return False, 1, "Insufficient balance"
+    return
 
-def accnumber_exists(receiver):
+def account_exists(receiver_num,receiver_uname):
     """
         Checks if the account number exists of recieving end.
     """
     all_client=DataActions.retrieve_all()
     for client in all_client:
-        if client[9]==receiver:
-            return True, -1, None
+        if client[9]==receiver_num:
+            if client[6]==receiver_uname:
+                return True, -1, None
+
     return False, 4, "account not found"
 
 def new_transaction_id():
     """
         Creates a unique transfer id.
     """
-    all_transactions=retrieve_all()
-    
+    try:
+        all_transactions=retrieve_all()
+    except sqlite3.OperationalError:
+        all_transactions=[()]
+
     try:
         return all_transactions[-1][-2]+1
     except IndexError:
@@ -157,7 +163,7 @@ def main(info):
             remarks : 6,
             status : 7
     """
-    check1=accnumber_exists(info[4])
+    check1=account_exists(info[4],info[5])
     if check1[0]:
         check2=enough_balance(info)
         if check2[0]:
@@ -166,12 +172,12 @@ def main(info):
             info[7]='complete'
             withdraw(info[3],info[1])
             deposit(info[4],info[1])
-            save_transfer(info)
+            #save_transfer(info)
             print("Done")
         else:
-            check2
+            print(check2)
     else:
-        return check1
+        print(check1)
 
 
 try:

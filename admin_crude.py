@@ -205,7 +205,7 @@ def edit():
     number_edit.grid(row=9,column=1)
 
 
-    Button(win2,text="Update",command=update).grid(row=8,column=1,pady=10)
+    Button(win2,text="Update",command=update).grid(row=11,column=1,pady=10)
 
 
     for record in records:
@@ -217,8 +217,8 @@ def edit():
         gender_edit.insert(0,record[5])
         uname_edit.insert(0,record[6])
         passwrd_edit.insert(0,record[7])
-        balance_edit.insert(0,record[9])
-        number_edit.insert(0,record[10])
+        balance_edit.insert(0,record[8])
+        number_edit.insert(0,record[9])
 
 
     conn.commit()
