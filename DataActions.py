@@ -5,7 +5,7 @@ DATABASE="bank_data.db"
 
 def configure() -> None:
     '''
-        execute if table not created.
+        execute if table is not created.
     '''
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
@@ -19,7 +19,8 @@ def configure() -> None:
         dob text,
         gender text,
         username text,
-        password text
+        password text,
+        balance integer
         
     )
     """)
@@ -28,7 +29,6 @@ def configure() -> None:
     conn.close()
 
 def signup_submit(info:list) -> None:
-
     """
         submits data from sign up page into database.
         Arguments:
@@ -39,13 +39,14 @@ def signup_submit(info:list) -> None:
             dob : 4,
             username : 5,
             password : 6,
-            gender : 8
+            gender : 8,
+            balance : 9
     """
 
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
 
-    c.execute('INSERT INTO Account VALUES (:first_name,:middle_name,:last_name,:email,:dob, :gender, :username, :password)',{
+    c.execute('INSERT INTO Account VALUES (:first_name,:middle_name,:last_name,:email,:dob, :gender, :username, :password, :balance)',{
         'first_name':info[0],
         'middle_name':info[1],
         'last_name':info[2],
@@ -53,7 +54,8 @@ def signup_submit(info:list) -> None:
         'dob':info[4],
         'gender':info[8],
         'username':info[5],
-        'password':info[6]
+        'password':info[6],
+        'balance':info[9]
     })
     print('data submitted successfully')
 
@@ -61,6 +63,10 @@ def signup_submit(info:list) -> None:
     conn.close()
 
 def retrieve_all() -> list:
+    """
+        retrieves all data in form of a list.
+        [('Fname', 'Mname', 'Lname', 'Email', 'dateOfBirth', 'Gender', 'Username', 'Password', 'balance', oid)]
+    """
     conn= sqlite3.connect(DATABASE)
 
     c= conn.cursor()
@@ -68,13 +74,12 @@ def retrieve_all() -> list:
     c.execute("SELECT *, oid FROM Account")
 
     records= c.fetchall()#[(),()]
-    print(records)
 
     return records
 
     conn.close()
 
-try:
+try:# Creates tables for new host machine.
     configure()
 except sqlite3.OperationalError:
     pass
