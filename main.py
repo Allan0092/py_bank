@@ -273,24 +273,24 @@ def homepage(client:list):
 
     py_bank_logo.grid(row=0,column=0,rowspan=19,ipady=400)
 
-    homepage_welcome_label=Label(win,text=f"Welcome {logged_in_name},",font=20)# Welcome message at top.
+    homepage_welcome_label=Label(win,text=f"Welcome {logged_in_name},".title(),font=30,bg=BACKGROUND1)# Welcome message at top.
     homepage_welcome_label.grid(row=0,column=1)
 
-    homepage_frame1=LabelFrame(win,padx=20,pady=20)
+    homepage_frame1=LabelFrame(win,padx=20,pady=20,bg=BACKGROUND1)
     homepage_frame1.grid(row=2,column=1,sticky="S")
-    Label(homepage_frame1,text="Account Number").grid(row=0,column=0)
+    Label(homepage_frame1,text="Account Number",bg=BACKGROUND1).grid(row=0,column=0)
 
-    homepage_frame2=LabelFrame(win,borderwidth=5,padx=50,pady=10)# Account Number
+    homepage_frame2=LabelFrame(win,padx=50,pady=10,bg=BACKGROUND1)# Account Number
     homepage_frame2.grid(row=3,column=1,sticky="N")
-    Label(homepage_frame2,text=client[9]).grid(row=0,column=0)
+    Label(homepage_frame2,text=client[9],bg=BACKGROUND1).grid(row=0,column=0)
 
-    homepage_frame3=LabelFrame(win,padx=20,pady=20)
+    homepage_frame3=LabelFrame(win,padx=20,pady=20,bg=BACKGROUND1)
     homepage_frame3.grid(row=2,column=2,sticky="S")
-    Label(homepage_frame3,text="Account Balance").grid(row=0,column=0)
+    Label(homepage_frame3,text="Account Balance",bg=BACKGROUND1).grid(row=0,column=0)
 
-    homepage_frame4=LabelFrame(win,padx=60,pady=10)# Account Balance
+    homepage_frame4=LabelFrame(win,padx=60,pady=10,bg=BACKGROUND1)# Account Balance
     homepage_frame4.grid(row=3,column=2,sticky="N")
-    homepage_balance=Label(homepage_frame4,text=f'Rs. {client[8]}')
+    homepage_balance=Label(homepage_frame4,text=f'Rs. {client[8]}',bg=BACKGROUND1)
     homepage_balance.grid(row=0,column=0)
 
     def clicked_refresh():
@@ -304,25 +304,25 @@ def homepage(client:list):
                 homepage(i)
 
     homepage_refresh=Button(win,text="refresh",command=clicked_refresh)# Refresh button
-    homepage_refresh.grid(row=1,column=3)
+    homepage_refresh.grid(row=1,column=1)
 
-    homepage_frame5=LabelFrame(win,border=10,padx=50,pady=50)# Transaction Frame
+    homepage_frame5=LabelFrame(win,border=10,padx=50,pady=50,bg=BACKGROUND1)# Transaction Frame
     homepage_frame5.grid(row=5,column=1,padx=50,pady=50,columnspan=2)
-    Label(homepage_frame5,text="Quick Fund Transfer").grid(row=0,column=0,columnspan=2,pady=(0,50))
+    Label(homepage_frame5,text="Quick Fund Transfer",bg=BACKGROUND1).grid(row=0,column=0,columnspan=2,pady=(0,50))
 
-    Label(homepage_frame5,text="To Account").grid(row=1,column=0)# To Account 
+    Label(homepage_frame5,text="To Account",bg=BACKGROUND1).grid(row=1,column=0)# To Account 
     homepage_toaccount=Entry(homepage_frame5)
     homepage_toaccount.grid(row=1,column=1,pady=(0,20))
 
-    Label(homepage_frame5,text="Account Name").grid(row=2,column=0)# Account name
+    Label(homepage_frame5,text="Account Name",bg=BACKGROUND1).grid(row=2,column=0)# Account name
     homepage_accountname=Entry(homepage_frame5)
     homepage_accountname.grid(row=2,column=1,pady=(0,20))
 
-    Label(homepage_frame5,text="Amount").grid(row=3,column=0)# Amount
+    Label(homepage_frame5,text="Amount",bg=BACKGROUND1).grid(row=3,column=0)# Amount
     homepage_amount=Entry(homepage_frame5)
     homepage_amount.grid(row=3,column=1,pady=(0,20))
 
-    Label(homepage_frame5,text="Remarks").grid(row=4,column=0)# Remarks
+    Label(homepage_frame5,text="Remarks",bg=BACKGROUND1).grid(row=4,column=0)# Remarks
     homepage_remarks=Entry(homepage_frame5)
     homepage_remarks.grid(row=4,column=1)
 
