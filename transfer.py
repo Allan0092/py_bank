@@ -1,4 +1,5 @@
 import sqlite3
+import DataActions
 
 
 DATABASE="bank_data.db"
@@ -13,6 +14,7 @@ def configure():
     c.execute("""
     create table transaction(
         id text,
+        amount integer,
         date text,
         from_acc text,
         to_acc text,
@@ -27,7 +29,7 @@ def configure():
 def retrieve_all():
     """
         retrieves all data in the form of a list.
-        [('id', 'date', 'from_account', 'to_acc', 'remarks', 'status', oid)]
+        [('id', 'amount', 'date', 'from_account', 'to_acc', 'remarks', 'status', oid)]
     """
     conn= sqlite3.connect(DATABASE)
 
@@ -46,42 +48,74 @@ def transfer(info):
         Adds a transaction.
         Arguments:
             id : 0,
-            date : 1,
-            from_acc : 2,
-            to_acc : 3,
-            remarks : 4,
-            status : 5
+            amount : 1,
+            date : 2,
+            from_acc : 3,
+            to_acc : 4,
+            remarks : 5,
+            status : 6
     """
 
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
 
-    c.execute('INSERT INTO transaction VALUES (:id,:date,:from_acc,:to_acc,:remarks, :status)',{
+    c.execute('INSERT INTO transaction VALUES (:id, :amount, :date, :from_acc, :to_acc, :remarks, :status)',{
         'id':info[0],
-        'date':info[1],
-        'from_acc':info[2],
-        'to_acc':info[3],
-        'remarks':info[4],
-        'status':info[5]
+        'amount':info[1],
+        'date':info[2],
+        'from_acc':info[3],
+        'to_acc':info[4],
+        'remarks':info[5],
+        'status':info[6]
     })
     print('amount transfered successfully')
 
     conn.commit()
     conn.close()
 
+def enough_balance(info):
+    """
+        checks if account has enough balance.
+        Arguments:
+            id : 0,
+            amount : 1,
+            date : 2,
+            from_acc : 3,
+            to_acc : 4,
+            remarks : 5,
+            status : 6
+    """
+
+    all_users=DataActions.retrieve_all()
+    
+    for user in all_users:
+        if info[3]==user[6]:
+            if user[9]>=info[1]:
+                print("Sufficient balance")
+            else:
+                print("Insufficient balance")
+
+
+
 def main(info):
     """
         main function.
         Arguments:
             id : 0,
-            date : 1,
-            from_acc : 2,
-            to_acc : 3,
-            remarks : 4,
-            status : 5
+            balance : 1,
+            date : 2,
+            from_acc : 3,
+            to_acc : 4,
+            remarks : 5,
+            status : 6
     """
     
+
+
 try:
     configure()
 except sqlite3.OperationalError:
+    pass
+
+if __name__=="__main__":
     pass
