@@ -30,16 +30,16 @@ def login_page():
     login_frame=LabelFrame(win,bg=BACKGROUND1,border=10,padx=100,pady=100)# contains username and password
     login_frame.grid(row=1,column=1)
 
-    # Username 
+    # Username
     Label(login_frame,text="Username",bg=BACKGROUND1,fg=FOREGROUND1,font=15).grid(row=1,column=1,padx=30)
     login_username=Entry(login_frame,bg=BACKGROUND2,fg=FOREGROUND1)
     login_username.grid(row=1,column=2,padx=(0,80))
-    
+
     # Password
     Label(login_frame,text="Password",bg=BACKGROUND1,fg=FOREGROUND1,font=15).grid(row=3,column=1,pady=(30,0))
     login_password=Entry(login_frame,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
     login_password.grid(row=3,column=2,padx=(0,80),sticky="S")
-    
+
     # Login Button
     Button(login_frame,text='Log In',command=login_check).grid(row=5,column=2,padx=(0,80),pady=30)
 
@@ -55,7 +55,7 @@ def login_check():
     """
     global logged_in_name,client_details
 
-    try:# Removes any previous error if it's made 
+    try:# Removes any previous error if it's made
         login_error1.grid_forget()
         login_error2.grid_forget()
     except NameError:
@@ -73,12 +73,12 @@ def login_check():
                 py_bank_logo.grid_forget()
                 py_bank_title.grid_forget()
                 logged_in_name=f"{client[0]} {client[2]}"
-                homepage(client)    
+                homepage(client)
             else:
-                login_error_show(2)# Wrong password    
-                return    
+                login_error_show(2)# Wrong password
+                return
     login_error_show(1)# Username not found
-    
+
 def login_error_show(what:int):
     """
         shows username not found and password is incorrect errors.
@@ -123,7 +123,7 @@ def sign_up():
         ("Other",'other')
     ]
     gvar=StringVar(signup_frame,'None')
-    
+
     #Label(frame2,image=my_img2,bg=BACKGROUND1).grid(row=0,column=1,pady=(45,0))
 
     Label(signup_frame,text="Sign up",font=100,bg='#90cad1',fg=FOREGROUND1).grid(row=1,column=1,pady=(20,60),sticky="W")
@@ -165,7 +165,7 @@ def sign_up():
     Label(signup_frame,text='Confirm Password',bg=BACKGROUND1,fg=FOREGROUND1).grid(row=20,column=0,padx=(20,10),sticky='S')
     new_cpasswrd=Entry(signup_frame,show='*',bg=BACKGROUND2,fg=FOREGROUND1)
     new_cpasswrd.grid(row=20,column=1,pady=(30,0),padx=(0,100))
-    
+
     Button(signup_frame,text='Submit',fg=FOREGROUND1,command=sign_up_data).grid(row=22,column=1,pady=(60,0),padx=(0,100))
 
     Label(signup_frame,text='OR',bg=BACKGROUND1).grid(row=23, column=1,padx=(0,100),pady=25)
@@ -200,6 +200,7 @@ def sign_up_data():
     data_confpasswrd=new_cpasswrd.get()
     data_gender=gvar.get()
     data_balance=100
+    data_account_num=assign_acc()# Assigns account number
     """
     Places all the data into a list.
     """
@@ -212,11 +213,12 @@ def sign_up_data():
         signup_error_show(_check_data)# Shows respective error.
 
     else:# No error found.
-        all_data.append(data_balance)
+        all_data.append(data_balance)# adds 100 at index 9
+        all_data.append(data_account_num)#adds account number at index 10
         DataActions.signup_submit(all_data)# Adds data to Account table.
         messagebox.showinfo("Success","Submitted Sucessfully")
         clicked_login()
-        
+
 def signup_error_show(_where:list) -> None:
     """
         displays the error message at sign up page
@@ -251,6 +253,17 @@ def signup_error_show(_where:list) -> None:
     signup_error1=Label(signup_frame,text=_text + _where[2],fg='red',bg=BACKGROUND1)# error in sign up page
     signup_error1.grid(row=_row,column=1,columnspan=4,sticky='WN')
 
+def assign_acc()->int:
+    """
+        Assigns Account number.
+    """
+    all_clients=DataActions.retrieve_all()
+    try:
+        return all_clients[-2]+1
+    except IndexError:
+        return 90701000
+
+
 def homepage(client:list):
     """
         The homepage, after login is successfull.
@@ -264,11 +277,11 @@ def homepage(client:list):
 
     homepage_frame1=LabelFrame(win)
     homepage_frame1.grid(row=1,column=1)
-    Label(homepage_frame1,text="Account username").grid(row=0,column=0)
+    Label(homepage_frame1,text="Account Number").grid(row=0,column=0)
 
-    homepage_frame2=LabelFrame(win,borderwidth=5)# Account Username
+    homepage_frame2=LabelFrame(win,borderwidth=5)# Account Number
     homepage_frame2.grid(row=2,column=1,sticky="N")
-    Label(homepage_frame2,text=client[6]).grid(row=0,column=0)
+    Label(homepage_frame2,text=client[10]).grid(row=0,column=0)
 
     homepage_frame3=LabelFrame(win)
     homepage_frame3.grid(row=1,column=2)
@@ -285,7 +298,7 @@ def homepage(client:list):
     homepage_frame5.grid(row=3,column=2)
     Label(homepage_frame5,text="Quick Fund Transfer").grid(row=0,column=0,columnspan=2)
 
-    Label(homepage_frame5,text="To Account").grid(row=1,column=0)# To Account 
+    Label(homepage_frame5,text="To Account").grid(row=1,column=0)# To Account
     homepage_toaccount=Entry(homepage_frame5)
     homepage_toaccount.grid(row=1,column=1)
 
@@ -316,7 +329,7 @@ def homepage(client:list):
 
     def clicked_signout():
         """
-            Goes back to login page. 
+            Goes back to login page.
         """
         homepage_frame1.grid_forget()
         homepage_frame2.grid_forget()
@@ -332,8 +345,14 @@ def homepage(client:list):
 
         login_page()
 
+    def clicked_refresh():
+        """
+            Refreshes account balance.
+        """
+
     homepage_signout=Button(win,text='sign out',command=clicked_signout)
     homepage_signout.grid(row=4,column=3)
+
 
 
 def main():
@@ -378,3 +397,4 @@ def main():
 
 if __name__=="__main__":
     main()
+

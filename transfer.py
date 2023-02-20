@@ -87,7 +87,7 @@ def enough_balance(info):
     """
 
     all_users=DataActions.retrieve_all()
-    
+
     for user in all_users:
         if info[3]==user[6]:
             if user[9]>=info[1]:
@@ -119,7 +119,7 @@ def main(info):
             remarks : 5,
             status : 6
     """
-    
+
 
 
 try:

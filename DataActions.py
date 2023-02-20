@@ -20,8 +20,9 @@ def configure() -> None:
         gender text,
         username text,
         password text,
-        balance integer
-        
+        balance integer,
+        accnumber integer
+
     )
     """)
     print("database created successfully")
@@ -40,7 +41,8 @@ def signup_submit(info:list) -> None:
             username : 5,
             password : 6,
             gender : 8,
-            balance : 9
+            balance : 9,
+            account number : 10
     """
 
     conn=sqlite3.connect(DATABASE)
@@ -55,7 +57,9 @@ def signup_submit(info:list) -> None:
         'gender':info[8],
         'username':info[5],
         'password':info[6],
-        'balance':info[9]
+        'balance':info[9],
+        'accnumber':info[10]
+
     })
     print('data submitted successfully')
 
@@ -65,7 +69,7 @@ def signup_submit(info:list) -> None:
 def retrieve_all() -> list:
     """
         retrieves all data in form of a list.
-        [('Fname', 'Mname', 'Lname', 'Email', 'dateOfBirth', 'Gender', 'Username', 'Password', 'balance', oid)]
+        [('Fname', 'Mname', 'Lname', 'Email', 'dateOfBirth', 'Gender', 'Username', 'Password', 'balance','account number', oid)]
     """
     conn= sqlite3.connect(DATABASE)
 
@@ -83,3 +87,4 @@ try:# Creates tables for new host machine.
     configure()
 except sqlite3.OperationalError:
     pass
+

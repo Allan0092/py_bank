@@ -1,6 +1,7 @@
 import sqlite3
 from tkinter import *
 from tkinter import messagebox
+from main import assign_acc
 
 DATABASE="bank_data.db"
 
@@ -21,8 +22,9 @@ def configure():
         gender text,
         username text,
         password text,
-        balance integer
-        
+        balance integer,
+        accnumber integer
+
     )
     """)
     print("database created successfully")
@@ -40,7 +42,7 @@ def main():
     win=Tk()
     win.title("Bank")
     win.minsize(700,1000)
-    
+
     Label(win,text="first name").grid(row=0,column=0)
     fname=Entry(win)
     fname.grid(row=0,column=1)
@@ -92,8 +94,8 @@ def main():
 def submit():
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
-    
-    c.execute('INSERT INTO Account VALUES (:first_name,:middle_name,:last_name,:email,:dob, :gender, :username, :passwrd, :balance)',{
+
+    c.execute('INSERT INTO Account VALUES (:first_name,:middle_name,:last_name,:email,:dob, :gender, :username, :passwrd, :balance, :accnumber)',{
         'first_name':fname.get(),
         'middle_name':mname.get(),
         'last_name':lname.get(),
@@ -102,7 +104,8 @@ def submit():
         'gender':gender.get(),
         'username':uname.get(),
         'passwrd':passwrd.get(),
-        'balance':0
+        'balance':0,
+        'accnumber': assign_acc()
     })
     print('data submitted successfully')
 
@@ -142,8 +145,8 @@ def query():
 
 def edit():
 
-    global win2,fname_edit,mname_edit,lname_edit,uname_edit,email_edit,dob_edit,gender_edit,passwrd_edit,balance_edit
-    
+    global win2,fname_edit,mname_edit,lname_edit,uname_edit,email_edit,dob_edit,gender_edit,passwrd_edit,balance_edit,number_edit
+
 
     win2= Toplevel(win)
     win2.title('Update Data')
@@ -158,9 +161,9 @@ def edit():
     c.execute('SELECT * FROM Account WHERE oid='+ record_id)
 
     records = c.fetchall()
-    
+
     # print(records)
-    
+
     Label(win2,text="first name").grid(row=0,column=0)
     fname_edit=Entry(win2)
     fname_edit.grid(row=0,column=1)
@@ -197,6 +200,10 @@ def edit():
     balance_edit=Entry(win2)
     balance_edit.grid(row=8,column=1)
 
+    Label(win2,text="Account number").grid(row=9,column=0)
+    number_edit=Entry(win2)
+    number_edit.grid(row=9,column=1)
+
 
     Button(win2,text="Update",command=update).grid(row=8,column=1,pady=10)
 
@@ -210,8 +217,10 @@ def edit():
         gender_edit.insert(0,record[5])
         uname_edit.insert(0,record[6])
         passwrd_edit.insert(0,record[7])
+        balance_edit.insert(0,record[9])
+        number_edit.insert(0,record[10])
 
-   
+
     conn.commit()
     conn.close()
 
@@ -229,7 +238,8 @@ def update():
         gender= :gender,
         username= :uname,
         password=:passwrd,
-        balance=:balance
+        balance=:balance,
+        accnumber=:accnumber
         WHERE oid= :oid""",{
         'fname':fname_edit.get(),
         'mname':mname_edit.get(),
@@ -240,6 +250,7 @@ def update():
         'uname':uname_edit.get(),
         'passwrd':passwrd_edit.get(),
         'balance':balance_edit.get(),
+        'accnumber':number_edit.get(),
         'oid':update_box.get()
     })
     conn.commit()
@@ -290,6 +301,7 @@ def drop_transaction():
     conn.close()
 
 if __name__=="__main__":
-    drop_acc()
+    main()
+
 
 
