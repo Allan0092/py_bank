@@ -259,10 +259,9 @@ def assign_acc()->int:
     """
     all_clients=DataActions.retrieve_all()
     try:
-        return all_clients[-2]+1
+        return all_clients[-1][-2]+1
     except IndexError:
         return 90701000 
-
 
 def homepage(client:list):
     """
@@ -325,7 +324,23 @@ def homepage(client:list):
     homepage_remarks=Entry(homepage_frame5)
     homepage_remarks.grid(row=4,column=1)
 
-    Button(homepage_frame5,text="transfer").grid(row=5,column=0,columnspan=2)# transfer button
+    def clicked_transfer():
+        transaction_info=['id 0','amount 1','date 2','from 3','to 4', 'uname 5','remark 6','status 7']
+        transaction_info[1]=homepage_amount.get()
+        transaction_info[3]=client[9]
+        transaction_info[4]=homepage_toaccount.get()
+        transaction_info[5]=homepage_accountname.get()
+        transaction_info[6]=homepage_remarks.get()
+
+        transfer.main(transaction_info)
+
+        homepage_toaccount.delete(0,END)
+        homepage_remarks(0,END)
+        homepage_accountname.delete(0,END)
+        homepage_amount.delete(0,END)
+
+
+    Button(homepage_frame5,text="transfer",command=clicked_transfer).grid(row=5,column=0,columnspan=2)# transfer button
 
     homepage_frame6=LabelFrame(win)# Load fund
     homepage_frame6.grid(row=4,column=2)
