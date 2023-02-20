@@ -91,9 +91,19 @@ def enough_balance(info):
     for user in all_users:
         if info[3]==user[6]:
             if user[9]>=info[1]:
-                print("Sufficient balance")
+                return True, -1, None
             else:
-                print("Insufficient balance")
+                return False, 1, "Insufficient balance"
+
+def username_exists(receiver):
+    """
+        Checks if the username exists of recieving end.
+    """
+    all_client=DataActions.retrieve_all()
+    for client in all_client:
+        if client==receiver:
+            return True, -1, None
+    return False, 4, "username not found"
 
 
 
