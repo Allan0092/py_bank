@@ -175,7 +175,7 @@ def is_unique_check(information:list):
     for_email=email_is_unique(information[3])
     if not for_username[0]:
         return for_username
-    elif not for_email:
+    elif not for_email[0]:
         return for_email
     else:
         return True, -1, None

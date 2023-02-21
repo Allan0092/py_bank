@@ -267,7 +267,8 @@ def homepage(client:list):
     """
         The homepage, after login is successfull.
     """
-    print(client)
+    global homepage_frame5
+
     #homepage_PybankLogo=Label(win,image=my_img7)# Py bank logo in home page at the top left corner.
     #homepage_PybankLogo.grid(row=0,column=0,rowspan=2)
 
@@ -323,19 +324,19 @@ def homepage(client:list):
 
     Label(homepage_frame5,text="To Account",bg=BACKGROUND1).grid(row=1,column=0)# To Account 
     homepage_toaccount=Entry(homepage_frame5)
-    homepage_toaccount.grid(row=1,column=1,pady=(0,20))
+    homepage_toaccount.grid(row=1,column=1)
 
-    Label(homepage_frame5,text="Account Name",bg=BACKGROUND1).grid(row=2,column=0)# Account name
+    Label(homepage_frame5,text="Account Name",bg=BACKGROUND1).grid(row=3,column=0)# Account name
     homepage_accountname=Entry(homepage_frame5)
-    homepage_accountname.grid(row=2,column=1,pady=(0,20))
+    homepage_accountname.grid(row=3,column=1,pady=(20,0))
 
-    Label(homepage_frame5,text="Amount",bg=BACKGROUND1).grid(row=3,column=0)# Amount
+    Label(homepage_frame5,text="Amount",bg=BACKGROUND1).grid(row=5,column=0)# Amount
     homepage_amount=Entry(homepage_frame5)
-    homepage_amount.grid(row=3,column=1,pady=(0,20))
+    homepage_amount.grid(row=5,column=1,pady=(20,0))
 
-    Label(homepage_frame5,text="Remarks",bg=BACKGROUND1).grid(row=4,column=0)# Remarks
+    Label(homepage_frame5,text="Remarks",bg=BACKGROUND1).grid(row=7,column=0)# Remarks
     homepage_remarks=Entry(homepage_frame5)
-    homepage_remarks.grid(row=4,column=1)
+    homepage_remarks.grid(row=7,column=1,pady=(20,0))
 
     def clicked_transfer():
         transaction_info=['id 0','amount 1','date 2','from 3','to 4', 'uname 5','remark 6','status 7']
@@ -345,15 +346,17 @@ def homepage(client:list):
         transaction_info[5]=homepage_accountname.get()
         transaction_info[6]=homepage_remarks.get()
 
-        transfer.main(transaction_info)
+        conduct_transaction=transfer.main(transaction_info)
+        if conduct_transaction[0]:
+            homepage_toaccount.delete(0,END)
+            homepage_remarks.delete(0,END)
+            homepage_accountname.delete(0,END)
+            homepage_amount.delete(0,END)
+        else:
+            homepage_error_show(conduct_transaction)
 
-        homepage_toaccount.delete(0,END)
-        homepage_remarks.delete(0,END)
-        homepage_accountname.delete(0,END)
-        homepage_amount.delete(0,END)
 
-
-    Button(homepage_frame5,text="Transfer",command=clicked_transfer).grid(row=5,column=0,columnspan=2,pady=30)# transfer button
+    Button(homepage_frame5,text="Transfer",command=clicked_transfer).grid(row=9,column=0,columnspan=2,pady=30)# transfer button
 
     """homepage_frame6=LabelFrame(win)# Load fund
     homepage_frame6.grid(row=7,column=2)
@@ -386,19 +389,18 @@ def homepage(client:list):
     Label(homepage_frame6,text="Transactions",font=20,bg=BACKGROUND1).grid(row=0,column=0,columnspan=5,pady=(10,20))
 
     Label(homepage_frame6,text="Id",bg=BACKGROUND1).grid(row=1,column=0)
-    Label(homepage_frame6,text="Amount",bg=BACKGROUND1).grid(row=1,column=1)
+    Label(homepage_frame6,text="Amount(Rs.)",bg=BACKGROUND1).grid(row=1,column=1)
     Label(homepage_frame6,text="Date",bg=BACKGROUND1).grid(row=1,column=2)
     Label(homepage_frame6,text="From",bg=BACKGROUND1).grid(row=1,column=3)
     Label(homepage_frame6,text="To",bg=BACKGROUND1).grid(row=1,column=4)
+    Label(homepage_frame6,text="Remarks",bg=BACKGROUND1).grid(row=1,column=5)
 
-    filter_transaction=filter_transaction[-5:]
-    filter_transaction.reverse()
+    filter_transaction=filter_transaction[-5:]# takes only last five transactions
+    filter_transaction.reverse()# Reverse the list
 
-    for i,t in enumerate(filter_transaction):
-        for j in range(5):
-            Label(homepage_frame6,text=t[j],bg=BACKGROUND1).grid(row=i+2,column=j,padx=10)
-
-    
+    for i,t in enumerate(filter_transaction):# Takes individual transaction sequentially
+        for k,j in enumerate([0,1,2,3,4,6]):
+            Label(homepage_frame6,text=t[j],bg=BACKGROUND1).grid(row=i+2,column=k,padx=10,sticky='W')
 
     def remove_homepage():
         """
@@ -415,6 +417,27 @@ def homepage(client:list):
         homepage_welcome_label.grid_forget()
         py_bank_logo.grid_forget()
         homepage_signout.grid_forget()
+
+def homepage_error_show(_where:list):
+    """
+        Displays error messages in homepage.
+    """
+    global transaction_error
+
+    error_codes=[
+        [0, "Account number", 2],
+        [1, "Account username", 4],
+        [2, "Amount", 6]
+    ]
+
+    try: 
+        transaction_error.grid_forget()
+    except NameError:
+        pass
+
+    _row=error_codes[_where[1]][2]
+    transaction_error=Label(homepage_frame5,text=_where[2], fg="red",bg=BACKGROUND1)#shows error in Quick fund transfer
+    transaction_error.grid(row=_row,column=1,sticky="WN")
 
 def main():
     """

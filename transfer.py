@@ -94,7 +94,7 @@ def enough_balance(info):
             if user[8]>=info[1]:
                 return True, -1, None
             else:
-                return False, 1, "Insufficient balance"
+                return False, 2, "Insufficient balance"
     return
 
 def account_exists(receiver_num,receiver_uname):
@@ -107,7 +107,7 @@ def account_exists(receiver_num,receiver_uname):
             if client[6]==receiver_uname:
                 return True, -1, None
 
-    return False, 4, "account not found"
+    return False, 1, "account not found"
 
 def new_transaction_id():
     """
@@ -174,10 +174,11 @@ def main(info):
             deposit(info[4],info[1])
             save_transfer(info)
             print("Done")
+            return True, -1, None
         else:
-            print(check2)
+            return check2
     else:
-        print(check1)
+        return check1
 
 
 try:
