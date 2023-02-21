@@ -13,7 +13,7 @@ def configure():
     c=conn.cursor()
 
     c.execute("""
-    create table transaction(
+    create table transactionhistory(
         id text,
         amount integer,
         date text,
@@ -36,7 +36,7 @@ def retrieve_all():
 
     c= conn.cursor()
 
-    c.execute("SELECT *, oid FROM transaction")
+    c.execute("SELECT *, oid FROM transactionhistory")
 
     records= c.fetchall()#[(),()]
 
@@ -60,7 +60,7 @@ def save_transfer(info):
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
 
-    c.execute('INSERT INTO transaction VALUES (:id, :amount, :date, :from_acc, :to_acc, :remarks, :status)',{
+    c.execute('INSERT INTO transactionhistory VALUES (:id, :amount, :date, :from_acc, :to_acc, :remarks, :status)',{
         'id':info[0],
         'amount':info[1],
         'date':info[2],
@@ -119,9 +119,9 @@ def new_transaction_id():
         all_transactions=[()]
 
     try:
-        return all_transactions[-1][-2]+1
+        return str(int(all_transactions[-1][0])+1)
     except IndexError:
-        return 4201000 
+        return '4201000' 
 
 def withdraw(accnumber,amt):
     """
@@ -172,7 +172,7 @@ def main(info):
             info[7]='complete'
             withdraw(info[3],info[1])
             deposit(info[4],info[1])
-            #save_transfer(info)
+            save_transfer(info)
             print("Done")
         else:
             print(check2)
@@ -186,4 +186,4 @@ except sqlite3.OperationalError:
     pass
 
 if __name__=="__main__":
-    pass
+    print(retrieve_all())

@@ -267,7 +267,7 @@ def homepage(client:list):
     """
         The homepage, after login is successfull.
     """
-
+    print(client)
     #homepage_PybankLogo=Label(win,image=my_img7)# Py bank logo in home page at the top left corner.
     #homepage_PybankLogo.grid(row=0,column=0,rowspan=2)
 
@@ -306,9 +306,20 @@ def homepage(client:list):
     homepage_refresh=Button(win,text="Refresh",command=clicked_refresh)# Refresh button
     homepage_refresh.grid(row=1,column=1)
 
-    homepage_frame5=LabelFrame(win,border=10,padx=50,pady=50,bg=BACKGROUND1)# Transaction Frame
+    def clicked_signout():
+        """
+            Goes back to login page. 
+        """
+        remove_homepage()
+        login_page()
+
+        
+    homepage_signout=Button(win,text='Sign out',command=clicked_signout)
+    homepage_signout.grid(row=1,column=2)
+
+    homepage_frame5=LabelFrame(win,border=10,padx=50,pady=50,bg=BACKGROUND1)# Quick fund transfer Frame
     homepage_frame5.grid(row=5,column=1,padx=50,pady=50,columnspan=2)
-    Label(homepage_frame5,text="Quick Fund Transfer",bg=BACKGROUND1).grid(row=0,column=0,columnspan=2,pady=(0,50))
+    Label(homepage_frame5,text="Quick Fund Transfer",font=20,bg=BACKGROUND1).grid(row=0,column=0,columnspan=2,pady=(0,50))
 
     Label(homepage_frame5,text="To Account",bg=BACKGROUND1).grid(row=1,column=0)# To Account 
     homepage_toaccount=Entry(homepage_frame5)
@@ -363,16 +374,31 @@ def homepage(client:list):
 
     Button(homepage_frame6,text="load",command=clicked_loadfund).grid(row=2,column=0,columnspan=2)# load button"""
 
-    def clicked_signout():
-        """
-            Goes back to login page. 
-        """
-        remove_homepage()
-        login_page()
+    homepage_frame6=LabelFrame(win,bg=BACKGROUND1)# for trannsaction history
+    homepage_frame6.grid(row=9,column=1)
 
-        
-    homepage_signout=Button(win,text='Sign out',command=clicked_signout)
-    homepage_signout.grid(row=10,column=1,pady=20,columnspan=2)
+    all_transactions=transfer.retrieve_all()
+    filter_transaction=[]
+    for t in all_transactions:
+        if int(t[3])==client[9] or int(t[4])==client[9]:
+            filter_transaction.append(list(t))
+    
+    Label(homepage_frame6,text="Transactions",font=20,bg=BACKGROUND1).grid(row=0,column=0,columnspan=5,pady=(10,20))
+
+    Label(homepage_frame6,text="Id",bg=BACKGROUND1).grid(row=1,column=0)
+    Label(homepage_frame6,text="Amount",bg=BACKGROUND1).grid(row=1,column=1)
+    Label(homepage_frame6,text="Date",bg=BACKGROUND1).grid(row=1,column=2)
+    Label(homepage_frame6,text="From",bg=BACKGROUND1).grid(row=1,column=3)
+    Label(homepage_frame6,text="To",bg=BACKGROUND1).grid(row=1,column=4)
+
+    filter_transaction=filter_transaction[-5:]
+    filter_transaction.reverse()
+
+    for i,t in enumerate(filter_transaction):
+        for j in range(5):
+            Label(homepage_frame6,text=t[j],bg=BACKGROUND1).grid(row=i+2,column=j,padx=10)
+
+    
 
     def remove_homepage():
         """
@@ -389,10 +415,6 @@ def homepage(client:list):
         homepage_welcome_label.grid_forget()
         py_bank_logo.grid_forget()
         homepage_signout.grid_forget()
-
-    
-
-
 
 def main():
     """
