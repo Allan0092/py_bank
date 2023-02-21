@@ -303,7 +303,7 @@ def homepage(client:list):
                 remove_homepage()
                 homepage(i)
 
-    homepage_refresh=Button(win,text="refresh",command=clicked_refresh)# Refresh button
+    homepage_refresh=Button(win,text="Refresh",command=clicked_refresh)# Refresh button
     homepage_refresh.grid(row=1,column=1)
 
     homepage_frame5=LabelFrame(win,border=10,padx=50,pady=50,bg=BACKGROUND1)# Transaction Frame
@@ -342,7 +342,7 @@ def homepage(client:list):
         homepage_amount.delete(0,END)
 
 
-    Button(homepage_frame5,text="transfer",command=clicked_transfer).grid(row=5,column=0,columnspan=2,pady=30)# transfer button
+    Button(homepage_frame5,text="Transfer",command=clicked_transfer).grid(row=5,column=0,columnspan=2,pady=30)# transfer button
 
     """homepage_frame6=LabelFrame(win)# Load fund
     homepage_frame6.grid(row=7,column=2)
@@ -371,7 +371,7 @@ def homepage(client:list):
         login_page()
 
         
-    homepage_signout=Button(win,text='sign out',command=clicked_signout)
+    homepage_signout=Button(win,text='Sign out',command=clicked_signout)
     homepage_signout.grid(row=10,column=1,pady=20,columnspan=2)
 
     def remove_homepage():
