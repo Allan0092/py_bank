@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 import DataActions
 
 
@@ -12,7 +13,7 @@ def configure():
     c=conn.cursor()
 
     c.execute("""
-    create table transaction(
+    create table transactionhistory(
         id text,
         amount integer,
         date text,
@@ -35,7 +36,7 @@ def retrieve_all():
 
     c= conn.cursor()
 
-    c.execute("SELECT *, oid FROM transaction")
+    c.execute("SELECT *, oid FROM transactionhistory")
 
     records= c.fetchall()#[(),()]
 
@@ -43,7 +44,7 @@ def retrieve_all():
 
     conn.close()
 
-def transfer(info):
+def save_transfer(info):
     """
         Adds a transaction.
         Arguments:
@@ -59,7 +60,7 @@ def transfer(info):
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
 
-    c.execute('INSERT INTO transaction VALUES (:id, :amount, :date, :from_acc, :to_acc, :remarks, :status)',{
+    c.execute('INSERT INTO transactionhistory VALUES (:id, :amount, :date, :from_acc, :to_acc, :remarks, :status)',{
         'id':info[0],
         'amount':info[1],
         'date':info[2],
@@ -89,37 +90,95 @@ def enough_balance(info):
     all_users=DataActions.retrieve_all()
     
     for user in all_users:
-        if info[3]==user[6]:
-            if user[9]>=info[1]:
+        if info[3]==user[9]:
+            if user[8]>=info[1]:
                 return True, -1, None
             else:
-                return False, 1, "Insufficient balance"
+                return False, 2, "Insufficient balance"
+    return
 
-def username_exists(receiver):
+def account_exists(receiver_num,receiver_uname):
     """
-        Checks if the username exists of recieving end.
+        Checks if the account number exists of recieving end.
     """
     all_client=DataActions.retrieve_all()
     for client in all_client:
-        if client==receiver:
-            return True, -1, None
-    return False, 4, "username not found"
+        if client[9]==receiver_num:
+            if client[6]==receiver_uname:
+                return True, -1, None
 
+    return False, 1, "account not found"
 
+def new_transaction_id():
+    """
+        Creates a unique transfer id.
+    """
+    try:
+        all_transactions=retrieve_all()
+    except sqlite3.OperationalError:
+        all_transactions=[()]
+
+    try:
+        return str(int(all_transactions[-1][0])+1)
+    except IndexError:
+        return '4201000' 
+
+def withdraw(accnumber,amt):
+    """
+        Deducts amount from account.
+        Arguments:
+            accnumber : int
+            amt : int
+    """
+
+    all_clients=DataActions.retrieve_all()
+    for c in all_clients:
+        if c[9]==accnumber:
+            c_list=list(c)
+            c_list[8]-=amt
+            DataActions.edit(c_list)
+
+def deposit(accnumber,amt):
+    """
+        Adds balance to account.
+    """
+
+    all_clients=DataActions.retrieve_all()
+    for c in all_clients:
+        if c[9]==accnumber:
+            c_list=list(c)
+            c_list[8]+=amt
+            DataActions.edit(c_list)
 
 def main(info):
     """
         main function.
         Arguments:
             id : 0,
-            balance : 1,
+            amount : 1,
             date : 2,
             from_acc : 3,
             to_acc : 4,
-            remarks : 5,
-            status : 6
+            acc_name : 5,
+            remarks : 6,
+            status : 7
     """
-    
+    check1=account_exists(info[4],info[5])
+    if check1[0]:
+        check2=enough_balance(info)
+        if check2[0]:
+            info[0]=new_transaction_id()
+            info[2]=datetime.today().strftime('%Y-%m-%d')
+            info[7]='complete'
+            withdraw(info[3],info[1])
+            deposit(info[4],info[1])
+            save_transfer(info)
+            print("Done")
+            return True, -1, None
+        else:
+            return check2
+    else:
+        return check1
 
 
 try:
@@ -128,4 +187,4 @@ except sqlite3.OperationalError:
     pass
 
 if __name__=="__main__":
-    pass
+    print(retrieve_all())

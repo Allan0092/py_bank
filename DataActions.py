@@ -20,7 +20,8 @@ def configure() -> None:
         gender text,
         username text,
         password text,
-        balance integer
+        balance integer,
+        accnumber integer
         
     )
     """)
@@ -40,13 +41,14 @@ def signup_submit(info:list) -> None:
             username : 5,
             password : 6,
             gender : 8,
-            balance : 9
+            balance : 9,
+            account number : 10
     """
 
     conn=sqlite3.connect(DATABASE)
     c=conn.cursor()
 
-    c.execute('INSERT INTO Account VALUES (:first_name,:middle_name,:last_name,:email,:dob, :gender, :username, :password, :balance)',{
+    c.execute('INSERT INTO Account VALUES (:first_name,:middle_name,:last_name,:email,:dob, :gender, :username, :password, :balance, :accnumber)',{
         'first_name':info[0],
         'middle_name':info[1],
         'last_name':info[2],
@@ -55,7 +57,9 @@ def signup_submit(info:list) -> None:
         'gender':info[8],
         'username':info[5],
         'password':info[6],
-        'balance':info[9]
+        'balance':info[9],
+        'accnumber':info[10]
+
     })
     print('data submitted successfully')
 
@@ -65,7 +69,7 @@ def signup_submit(info:list) -> None:
 def retrieve_all() -> list:
     """
         retrieves all data in form of a list.
-        [('Fname', 'Mname', 'Lname', 'Email', 'dateOfBirth', 'Gender', 'Username', 'Password', 'balance', oid)]
+        [('Fname', 'Mname', 'Lname', 'Email', 'dateOfBirth', 'Gender', 'Username', 'Password', 'balance','account number', oid)]
     """
     conn= sqlite3.connect(DATABASE)
 
@@ -79,7 +83,56 @@ def retrieve_all() -> list:
 
     conn.close()
 
+def edit(info:list):
+    """
+        Edits an account's info.
+        info[0] : first_name
+        info[1] : middle_name
+        info[2] : last_name
+        info[3] : email
+        info[4] : dob
+        info[5] : gender
+        info[6] : username
+        info[7] : password
+        info[8] : balance
+        info[9] : accnumber
+    """
+    conn= sqlite3.connect(DATABASE)
+
+    c= conn.cursor()
+
+    c.execute("""UPDATE Account SET
+        first_name= :fname,
+        middle_name= :mname,
+        last_name= :lname,
+        email= :email,
+        dob= :dob,
+        gender= :gender,
+        username= :uname,
+        password=:passwrd,
+        balance=:balance,
+        accnumber=:accnumber
+        WHERE username= :uname""",{
+        'fname':info[0],
+        'mname':info[1],
+        'lname':info[2],
+        'email':info[3],
+        'dob':info[4],
+        'gender':info[5],
+        'uname':info[6],
+        'passwrd':info[7],
+        'balance':info[8],
+        'accnumber':info[9],
+    })
+    conn.commit()
+    conn.close()
+
+
 try:# Creates tables for new host machine.
     configure()
 except sqlite3.OperationalError:
     pass
+
+if __name__=="__main__":
+    a=('sofwarica', '', 'college', 'softwarica@email.com', '2023-02-08', 'male', 'softwarica', 'Softwarica@123', 200, 90701000, 1)
+    edit(a)
