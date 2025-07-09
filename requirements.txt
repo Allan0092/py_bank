@@ -1,0 +1,6 @@
+babel==2.17.0
+Faker==37.4.0
+pillow==11.3.0
+tkcalendar==1.6.1
+tzdata==2025.2
+validate_email==1.3
